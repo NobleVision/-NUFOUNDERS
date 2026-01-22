@@ -6,7 +6,7 @@ Before running the application locally, ensure you have the following installed:
 
 - **Node.js** v22 or higher
 - **pnpm** v10 or higher (install with `npm install -g pnpm`)
-- **MySQL** or **TiDB** database
+- **PostgreSQL** database (Neon recommended for serverless)
 
 ## Quick Start
 
@@ -28,8 +28,9 @@ cp .env.example .env
 Edit `.env` with your configuration:
 
 ```env
-# Database
-DATABASE_URL=mysql://username:password@localhost:3306/nufounders
+# Database (PostgreSQL - Neon recommended)
+# Get your connection string from: https://console.neon.tech
+DATABASE_URL=postgresql://username:password@your-project.neon.tech/nufounders?sslmode=require
 
 # Authentication
 JWT_SECRET=your-super-secret-jwt-key-at-least-32-characters
@@ -58,13 +59,19 @@ VITE_FRONTEND_FORGE_API_URL=https://your-forge-api-url
 
 ### 3. Set Up Database
 
-Create the database and run migrations:
+For **Neon** (recommended for Vercel deployment):
+1. Create a free account at [Neon](https://console.neon.tech)
+2. Create a new project and database
+3. Copy the connection string to your `.env` file
 
+For **local PostgreSQL**:
 ```bash
-# Create the database first in MySQL
-mysql -u root -p -e "CREATE DATABASE nufounders;"
+# Create the database
+psql -U postgres -c "CREATE DATABASE nufounders;"
+```
 
-# Push the schema to the database
+Then push the schema:
+```bash
 pnpm db:push
 ```
 
