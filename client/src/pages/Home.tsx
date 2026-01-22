@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { 
   GraduationCap, 
   Briefcase, 
@@ -19,8 +20,31 @@ import {
   Rocket
 } from "lucide-react";
 
+// Animation variants for reusable effects
+const fadeInUp = {
+  initial: { opacity: 0, y: 40 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, ease: "easeOut" }
+};
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const scaleOnHover = {
+  whileHover: { scale: 1.02, y: -4 },
+  whileTap: { scale: 0.98 },
+  transition: { type: "spring", stiffness: 400, damping: 17 }
+};
+
 export default function Home() {
   const { user, isAuthenticated } = useAuth();
+  const { scrollYProgress } = useScroll();
 
   const stats = [
     { label: "Women Empowered", value: "2,500+", icon: Users },
