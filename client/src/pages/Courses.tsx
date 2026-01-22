@@ -6,9 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
+import { VideoCarousel } from "@/components/ui/video-carousel";
+import { PAGE_VIDEO_SETS } from "@/lib/videoAssets";
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 import { 
   GraduationCap, 
   Search, 
@@ -20,7 +23,8 @@ import {
   Sparkles,
   ArrowLeft,
   CheckCircle,
-  Play
+  Play,
+  TrendingUp
 } from "lucide-react";
 
 // Mock courses data for demo
@@ -278,14 +282,36 @@ export default function Courses() {
         </div>
       </header>
 
-      <div className="container py-8">
-        {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Course Catalog</h1>
-          <p className="text-lg text-muted-foreground">
-            AI-powered courses designed to help you build skills and launch your business
-          </p>
+      {/* Video Hero Section */}
+      <VideoCarousel
+        videos={PAGE_VIDEO_SETS.courses}
+        interval={12000}
+        className="h-64 md:h-80"
+      >
+        <div className="h-full flex items-center">
+          <div className="container">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="max-w-2xl"
+            >
+              <Badge className="mb-4 bg-white/20 text-white border-white/30 backdrop-blur-sm">
+                <TrendingUp className="w-3 h-3 mr-1" />
+                25+ AI-Powered Courses
+              </Badge>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
+                Build Skills That Matter
+              </h1>
+              <p className="text-lg text-white/90 drop-shadow-md">
+                Personalized learning paths designed specifically for entrepreneurs and career changers
+              </p>
+            </motion.div>
+          </div>
         </div>
+      </VideoCarousel>
+
+      <div className="container py-8">
 
         {/* Filters */}
         <div className="flex flex-col md:flex-row gap-4 mb-8">

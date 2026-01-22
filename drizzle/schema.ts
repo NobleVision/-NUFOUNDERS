@@ -506,3 +506,135 @@ export const activityLogs = pgTable("activity_logs", {
 
 export type ActivityLog = typeof activityLogs.$inferSelect;
 export type InsertActivityLog = typeof activityLogs.$inferInsert;
+
+// ============================================================================
+// BUSINESS DOCUMENT ANALYSIS TABLES
+// ============================================================================
+
+export const documentAnalysisStatusEnum = pgEnum("document_analysis_status", [
+  "pending", "processing", "completed", "failed"
+]);
+
+export const documentTypeEnum = pgEnum("document_type", [
+  "business_plan", "pitch_deck", "financial_projection", "marketing_plan", "resume", "other"
+]);
+
+export const businessDocuments = pgTable("business_documents", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  businessIdeaId: integer("business_idea_id").references(() => businessIdeas.id),
+  filename: varchar("filename", { length: 255 }).notNull(),
+  fileType: varchar("file_type", { length: 50 }), // pdf, docx, pptx
+  fileSize: integer("file_size"),
+  documentType: documentTypeEnum("document_type").default("other"),
+  extractedText: text("extracted_text"),
+  aiAnalysis: jsonb("ai_analysis").$type<DocumentAnalysisResult>(),
+  status: documentAnalysisStatusEnum("status").default("pending"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export interface DocumentAnalysisResult {
+  summary: string;
+  strengths: string[];
+  weaknesses: string[];
+  suggestions: string[];
+  scores: {
+    clarity: number;
+    feasibility: number;
+    marketPotential: number;
+    financialViability: number;
+    overall: number;
+  };
+  sections: {
+    name: string;
+    feedback: string;
+    score: number;
+  }[];
+}
+
+export type BusinessDocument = typeof businessDocuments.$inferSelect;
+export type InsertBusinessDocument = typeof businessDocuments.$inferInsert;
+
+// ============================================================================
+// REAL-TIME CHAT TABLES
+// ============================================================================
+
+export const chatRoomTypeEnum = pgEnum("chat_room_type", [
+  "direct", "group", "mentor", "support"
+]);
+
+export const chatRooms = pgTable("chat_rooms", {
+  id: serial("id").primaryKey(),
+  type: chatRoomTypeEnum("type").default("group"),
+  name: varchar("name", { length: 255 }),
+  description: text("description"),
+  peerGroupId: integer("peer_group_id").references(() => peerGroups.id),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type ChatRoom = typeof chatRooms.$inferSelect;
+export type InsertChatRoom = typeof chatRooms.$inferInsert;
+
+export const chatParticipants = pgTable("chat_participants", {
+  id: serial("id").primaryKey(),
+  roomId: integer("room_id").notNull().references(() => chatRooms.id),
+  userId: integer("user_id").notNull().references(() => users.id),
+  role: varchar("role", { length: 50 }).default("member"), // member, mentor, admin
+  joinedAt: timestamp("joined_at").defaultNow().notNull(),
+  lastReadAt: timestamp("last_read_at"),
+  isMuted: boolean("is_muted").default(false),
+});
+
+export type ChatParticipant = typeof chatParticipants.$inferSelect;
+export type InsertChatParticipant = typeof chatParticipants.$inferInsert;
+
+export const chatMessages = pgTable("chat_messages", {
+  id: serial("id").primaryKey(),
+  roomId: integer("room_id").notNull().references(() => chatRooms.id),
+  userId: integer("user_id").notNull().references(() => users.id),
+  content: text("content").notNull(),
+  messageType: varchar("message_type", { length: 50 }).default("text"), // text, image, file, system
+  replyToId: integer("reply_to_id"),
+  isEdited: boolean("is_edited").default(false),
+  isDeleted: boolean("is_deleted").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type ChatMessage = typeof chatMessages.$inferSelect;
+export type InsertChatMessage = typeof chatMessages.$inferInsert;
+
+// ============================================================================
+// USER ACHIEVEMENTS & MILESTONES
+// ============================================================================
+
+export const userMilestones = pgTable("user_milestones", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  milestoneType: varchar("milestone_type", { length: 100 }).notNull(),
+  milestoneKey: varchar("milestone_key", { length: 100 }).notNull(),
+  title: varchar("title", { length: 255 }),
+  description: text("description"),
+  achievedAt: timestamp("achieved_at").defaultNow().notNull(),
+  metadata: jsonb("metadata").$type<Record<string, unknown>>(),
+});
+
+export type UserMilestone = typeof userMilestones.$inferSelect;
+export type InsertUserMilestone = typeof userMilestones.$inferInsert;
+
+export const userBadges = pgTable("user_badges", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  badgeId: varchar("badge_id", { length: 100 }).notNull(),
+  badgeName: varchar("badge_name", { length: 255 }).notNull(),
+  badgeDescription: text("badge_description"),
+  badgeIcon: varchar("badge_icon", { length: 100 }),
+  badgeCategory: varchar("badge_category", { length: 100 }),
+  earnedAt: timestamp("earned_at").defaultNow().notNull(),
+});
+
+export type UserBadge = typeof userBadges.$inferSelect;
+export type InsertUserBadge = typeof userBadges.$inferInsert;

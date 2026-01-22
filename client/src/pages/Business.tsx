@@ -9,9 +9,12 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { VideoCarousel } from "@/components/ui/video-carousel";
+import { PAGE_VIDEO_SETS } from "@/lib/videoAssets";
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 import { 
   Briefcase, 
   Plus,
@@ -28,7 +31,8 @@ import {
   Calendar,
   Trophy,
   ChevronRight,
-  BarChart3
+  BarChart3,
+  Rocket
 } from "lucide-react";
 
 // Mock business ideas for demo
@@ -156,15 +160,38 @@ export default function Business() {
         </div>
       </header>
 
-      <div className="container py-8">
-        {/* Page Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-          <div>
-            <h1 className="text-4xl font-bold mb-2">Business Formation</h1>
-            <p className="text-lg text-muted-foreground">
-              Turn your ideas into reality with AI-powered business planning
-            </p>
+      {/* Video Hero Section */}
+      <VideoCarousel
+        videos={PAGE_VIDEO_SETS.business}
+        interval={12000}
+        className="h-64 md:h-80"
+      >
+        <div className="h-full flex items-center">
+          <div className="container">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="max-w-2xl"
+            >
+              <Badge className="mb-4 bg-white/20 text-white border-white/30 backdrop-blur-sm">
+                <Rocket className="w-3 h-3 mr-1" />
+                AI-Powered Business Formation
+              </Badge>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
+                Turn Ideas Into Reality
+              </h1>
+              <p className="text-lg text-white/90 drop-shadow-md">
+                Get AI-scored business ideas, generate plans, and pitch for funding
+              </p>
+            </motion.div>
           </div>
+        </div>
+      </VideoCarousel>
+
+      <div className="container py-8">
+        {/* Action Bar */}
+        <div className="flex justify-end mb-8">
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
               <Button size="lg" className="mt-4 md:mt-0">

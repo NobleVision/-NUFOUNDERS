@@ -421,3 +421,301 @@ export async function moderateContent(content: string): Promise<ModerationResult
     };
   }
 }
+
+// ============================================================================
+// DOCUMENT ANALYSIS SERVICE
+// ============================================================================
+
+export interface DocumentAnalysisResult {
+  summary: string;
+  strengths: string[];
+  weaknesses: string[];
+  suggestions: string[];
+  scores: {
+    clarity: number;
+    feasibility: number;
+    marketPotential: number;
+    financialViability: number;
+    overall: number;
+  };
+  sections: {
+    name: string;
+    feedback: string;
+    score: number;
+  }[];
+}
+
+export async function analyzeBusinessDocument(params: {
+  documentText: string;
+  documentType: string;
+  businessContext?: string;
+  userBackground?: string;
+}): Promise<DocumentAnalysisResult> {
+  const documentTypeLabels: Record<string, string> = {
+    business_plan: "Business Plan",
+    pitch_deck: "Pitch Deck",
+    financial_projection: "Financial Projection",
+    marketing_plan: "Marketing Plan",
+    resume: "Resume/CV",
+    other: "Business Document",
+  };
+
+  const docTypeLabel = documentTypeLabels[params.documentType] || "Business Document";
+
+  const prompt = `Analyze this ${docTypeLabel} for a displaced Black woman entrepreneur seeking to start or grow her business.
+
+Document Content:
+${params.documentText.substring(0, 15000)} ${params.documentText.length > 15000 ? '... [truncated]' : ''}
+
+${params.businessContext ? `Business Context: ${params.businessContext}` : ''}
+${params.userBackground ? `Founder Background: ${params.userBackground}` : ''}
+
+Provide a comprehensive, supportive, and actionable analysis including:
+1. Executive summary of the document (2-3 sentences)
+2. Key strengths (what's working well, be encouraging)
+3. Areas for improvement (constructive feedback)
+4. Specific actionable suggestions for enhancement
+5. Scores (0-100) for: clarity, feasibility, market potential, financial viability
+6. Section-by-section feedback if applicable
+
+Focus on being helpful, practical, and empowering. Consider the unique challenges and opportunities for underrepresented entrepreneurs.`;
+
+  try {
+    const response = await invokeLLM({
+      messages: [
+        { 
+          role: "system", 
+          content: "You are an expert business consultant specializing in helping entrepreneurs from underrepresented communities succeed. Provide thorough, encouraging, and actionable feedback on business documents. Be specific and practical in your suggestions." 
+        },
+        { role: "user", content: prompt }
+      ],
+      response_format: {
+        type: "json_schema",
+        json_schema: {
+          name: "document_analysis",
+          strict: true,
+          schema: {
+            type: "object",
+            properties: {
+              summary: { type: "string" },
+              strengths: { type: "array", items: { type: "string" } },
+              weaknesses: { type: "array", items: { type: "string" } },
+              suggestions: { type: "array", items: { type: "string" } },
+              scores: {
+                type: "object",
+                properties: {
+                  clarity: { type: "integer" },
+                  feasibility: { type: "integer" },
+                  marketPotential: { type: "integer" },
+                  financialViability: { type: "integer" },
+                  overall: { type: "integer" }
+                },
+                required: ["clarity", "feasibility", "marketPotential", "financialViability", "overall"],
+                additionalProperties: false
+              },
+              sections: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    name: { type: "string" },
+                    feedback: { type: "string" },
+                    score: { type: "integer" }
+                  },
+                  required: ["name", "feedback", "score"],
+                  additionalProperties: false
+                }
+              }
+            },
+            required: ["summary", "strengths", "weaknesses", "suggestions", "scores", "sections"],
+            additionalProperties: false
+          }
+        }
+      }
+    });
+
+    const content = response.choices[0]?.message?.content;
+    if (!content || typeof content !== 'string') throw new Error("No content in response");
+    
+    return JSON.parse(content) as DocumentAnalysisResult;
+  } catch (error) {
+    console.error("Document analysis failed:", error);
+    throw new Error(`Failed to analyze document: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
+// ============================================================================
+// PERSONALIZED RECOMMENDATIONS SERVICE
+// ============================================================================
+
+export interface PersonalizedRecommendations {
+  recommendedCourses: { title: string; reason: string }[];
+  nextSteps: string[];
+  focusAreas: string[];
+  encouragement: string;
+}
+
+export async function generatePersonalizedRecommendations(params: {
+  skills: string[];
+  interests: string[];
+  completedCourses: string[];
+  businessGoals: string[];
+  currentProgress: {
+    coursesCompleted: number;
+    businessIdeas: number;
+    pitchesSubmitted: number;
+  };
+}): Promise<PersonalizedRecommendations> {
+  const prompt = `Generate personalized recommendations for a displaced Black woman entrepreneur:
+
+Current Skills: ${params.skills.join(', ') || 'Not specified'}
+Interests: ${params.interests.join(', ') || 'Not specified'}
+Completed Courses: ${params.completedCourses.join(', ') || 'None yet'}
+Business Goals: ${params.businessGoals.join(', ') || 'Not specified'}
+
+Progress:
+- Courses completed: ${params.currentProgress.coursesCompleted}
+- Business ideas developed: ${params.currentProgress.businessIdeas}
+- Pitches submitted: ${params.currentProgress.pitchesSubmitted}
+
+Provide personalized, actionable recommendations that align with her goals and build on her existing progress. Be encouraging and specific.`;
+
+  try {
+    const response = await invokeLLM({
+      messages: [
+        { 
+          role: "system", 
+          content: "You are a supportive career and business coach specializing in helping entrepreneurs succeed. Provide personalized, actionable recommendations." 
+        },
+        { role: "user", content: prompt }
+      ],
+      response_format: {
+        type: "json_schema",
+        json_schema: {
+          name: "recommendations",
+          strict: true,
+          schema: {
+            type: "object",
+            properties: {
+              recommendedCourses: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    title: { type: "string" },
+                    reason: { type: "string" }
+                  },
+                  required: ["title", "reason"],
+                  additionalProperties: false
+                }
+              },
+              nextSteps: { type: "array", items: { type: "string" } },
+              focusAreas: { type: "array", items: { type: "string" } },
+              encouragement: { type: "string" }
+            },
+            required: ["recommendedCourses", "nextSteps", "focusAreas", "encouragement"],
+            additionalProperties: false
+          }
+        }
+      }
+    });
+
+    const content = response.choices[0]?.message?.content;
+    if (!content || typeof content !== 'string') throw new Error("No content in response");
+    
+    return JSON.parse(content) as PersonalizedRecommendations;
+  } catch (error) {
+    console.error("Recommendations generation failed:", error);
+    throw new Error(`Failed to generate recommendations: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
+// ============================================================================
+// BUSINESS IDEA BRAINSTORMER SERVICE
+// ============================================================================
+
+export interface BrainstormResult {
+  ideas: {
+    title: string;
+    description: string;
+    whyItFits: string;
+    estimatedStartupCost: string;
+    potentialRevenue: string;
+  }[];
+  followUpQuestions: string[];
+}
+
+export async function brainstormBusinessIdeas(params: {
+  skills: string[];
+  interests: string[];
+  capitalAvailable: number;
+  timeAvailable: string;
+  preferences?: string;
+}): Promise<BrainstormResult> {
+  const prompt = `Generate business ideas for a displaced Black woman entrepreneur:
+
+Skills: ${params.skills.join(', ') || 'General business skills'}
+Interests: ${params.interests.join(', ') || 'Open to suggestions'}
+Available Capital: $${params.capitalAvailable.toLocaleString()}
+Time Available: ${params.timeAvailable || 'Full-time'}
+${params.preferences ? `Preferences/Constraints: ${params.preferences}` : ''}
+
+Generate 3-5 creative, practical business ideas that:
+1. Align with her skills and interests
+2. Are feasible with her available capital
+3. Have good market potential
+4. Can be started relatively quickly
+5. Have paths to profitability
+
+For each idea, explain why it's a good fit for her specifically.`;
+
+  try {
+    const response = await invokeLLM({
+      messages: [
+        { 
+          role: "system", 
+          content: "You are a creative business strategist who specializes in identifying viable business opportunities for entrepreneurs. Generate practical, innovative ideas tailored to the individual's unique circumstances." 
+        },
+        { role: "user", content: prompt }
+      ],
+      response_format: {
+        type: "json_schema",
+        json_schema: {
+          name: "brainstorm",
+          strict: true,
+          schema: {
+            type: "object",
+            properties: {
+              ideas: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    title: { type: "string" },
+                    description: { type: "string" },
+                    whyItFits: { type: "string" },
+                    estimatedStartupCost: { type: "string" },
+                    potentialRevenue: { type: "string" }
+                  },
+                  required: ["title", "description", "whyItFits", "estimatedStartupCost", "potentialRevenue"],
+                  additionalProperties: false
+                }
+              },
+              followUpQuestions: { type: "array", items: { type: "string" } }
+            },
+            required: ["ideas", "followUpQuestions"],
+            additionalProperties: false
+          }
+        }
+      }
+    });
+
+    const content = response.choices[0]?.message?.content;
+    if (!content || typeof content !== 'string') throw new Error("No content in response");
+    
+    return JSON.parse(content) as BrainstormResult;
+  } catch (error) {
+    console.error("Brainstorm failed:", error);
+    throw new Error(`Failed to brainstorm ideas: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}

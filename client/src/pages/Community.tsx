@@ -6,9 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { VideoCarousel } from "@/components/ui/video-carousel";
+import { PAGE_VIDEO_SETS } from "@/lib/videoAssets";
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 import { 
   Users, 
   MessageSquare,
@@ -23,7 +26,8 @@ import {
   GraduationCap,
   MapPin,
   Clock,
-  TrendingUp
+  TrendingUp,
+  HandHeart
 } from "lucide-react";
 
 // Mock forum posts
@@ -186,14 +190,36 @@ export default function Community() {
         </div>
       </header>
 
-      <div className="container py-8">
-        {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Community</h1>
-          <p className="text-lg text-muted-foreground">
-            Connect, learn, and grow with fellow founders
-          </p>
+      {/* Video Hero Section */}
+      <VideoCarousel
+        videos={PAGE_VIDEO_SETS.community}
+        interval={12000}
+        className="h-64 md:h-80"
+      >
+        <div className="h-full flex items-center">
+          <div className="container">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="max-w-2xl"
+            >
+              <Badge className="mb-4 bg-white/20 text-white border-white/30 backdrop-blur-sm">
+                <HandHeart className="w-3 h-3 mr-1" />
+                Sisterhood & Support
+              </Badge>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
+                Connect & Grow Together
+              </h1>
+              <p className="text-lg text-white/90 drop-shadow-md">
+                Join a community of 2,500+ women entrepreneurs supporting each other
+              </p>
+            </motion.div>
+          </div>
         </div>
+      </VideoCarousel>
+
+      <div className="container py-8">
 
         <Tabs defaultValue="forum" className="space-y-6">
           <TabsList className="grid w-full max-w-lg grid-cols-3">

@@ -6,4 +6,7 @@ export const ENV = {
   isProduction: process.env.NODE_ENV === "production",
   forgeApiUrl: process.env.BUILT_IN_FORGE_API_URL ?? "",
   forgeApiKey: process.env.BUILT_IN_FORGE_API_KEY ?? "",
+  // OpenAI API key - prefer OPENAI_API, fallback to forge key
+  openaiApiKey: process.env.OPENAI_API ?? process.env.BUILT_IN_FORGE_API_KEY ?? "",
+  openaiApiUrl: process.env.OPENAI_API_URL ?? "https://api.openai.com/v1",
 };
