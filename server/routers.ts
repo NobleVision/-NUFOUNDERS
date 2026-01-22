@@ -57,7 +57,8 @@ const authRouter = router({
 
 const profileRouter = router({
   get: protectedProcedure.query(async ({ ctx }) => {
-    return db.getUserProfile(ctx.user.id);
+    const profile = await db.getUserProfile(ctx.user.id);
+    return profile ?? null;
   }),
   
   upsert: protectedProcedure

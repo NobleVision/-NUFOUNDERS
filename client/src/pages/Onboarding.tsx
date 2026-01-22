@@ -82,6 +82,7 @@ export default function Onboarding() {
     linkedinUrl: "",
   });
 
+  const utils = trpc.useUtils();
   const upsertProfile = trpc.profile.upsert.useMutation();
   const completeOnboarding = trpc.profile.completeOnboarding.useMutation();
 
@@ -118,6 +119,7 @@ export default function Onboarding() {
       });
       
       await completeOnboarding.mutateAsync();
+      await utils.auth.me.invalidate();
       toast.success("Profile completed! Welcome to NuFounders!");
       setLocation("/dashboard");
     } catch (error) {
