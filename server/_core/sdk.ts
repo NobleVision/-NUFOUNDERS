@@ -261,10 +261,18 @@ class SDKServer {
   }
 
   async authenticateRequest(req: RequestLike): Promise<User> {
-    // Regular authentication flow
-    const cookieHeader = req.headers?.cookie || '';
-    const cookies = this.parseCookies(cookieHeader);
-    const sessionCookie = cookies.get(COOKIE_NAME);
+    // Regular authentication flow - check both parsed cookies and cookie header
+    let sessionCookie: string | undefined;
+    
+    // First try pre-parsed cookies (from tRPC edge handler)
+    if (req.cookies && req.cookies[COOKIE_NAME]) {
+      sessionCookie = req.cookies[COOKIE_NAME];
+    } else {
+      // Fallback to parsing cookie header
+      const cookieHeader = req.headers?.cookie || '';
+      const cookies = this.parseCookies(cookieHeader);
+      sessionCookie = cookies.get(COOKIE_NAME);
+    }
     const session = await this.verifySession(sessionCookie);
 
     if (!session) {

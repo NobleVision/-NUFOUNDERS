@@ -1,5 +1,6 @@
 import { SignJWT } from 'jose';
 import { COOKIE_NAME, ONE_YEAR_MS } from '../../../shared/const';
+import { ENV } from '../../../server/_core/env';
 
 export const config = {
   runtime: 'edge',
@@ -112,12 +113,12 @@ async function handleGoogleOAuth(code: string, redirectUri: string) {
 }
 
 async function createSessionToken(openId: string, name: string): Promise<string> {
-  const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'dev-secret-change-in-production');
+  const secret = new TextEncoder().encode(ENV.cookieSecret);
   const expiresAt = Math.floor((Date.now() + ONE_YEAR_MS) / 1000);
 
   return new SignJWT({
     openId,
-    appId: process.env.VITE_APP_ID || 'nufounders',
+    appId: ENV.appId,
     name,
   })
     .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
