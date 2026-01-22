@@ -41,7 +41,12 @@ const authRouter = router({
   me: publicProcedure.query(opts => opts.ctx.user),
   logout: publicProcedure.mutation(({ ctx }) => {
     const cookieOptions = getSessionCookieOptions(ctx.req);
-    ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
+    // Handle both Express and Edge function response types
+    if (typeof ctx.res.clearCookie === 'function') {
+      ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
+    } else if (typeof ctx.res.cookie === 'function') {
+      ctx.res.cookie(COOKIE_NAME, '', { ...cookieOptions, maxAge: -1 });
+    }
     return { success: true } as const;
   }),
 });
