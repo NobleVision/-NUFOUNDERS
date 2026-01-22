@@ -2,6 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { VideoCarousel, useVideoList } from "@/components/ui/video-carousel";
 import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -45,6 +46,7 @@ const scaleOnHover = {
 export default function Home() {
   const { user, isAuthenticated } = useAuth();
   const { scrollYProgress } = useScroll();
+  const heroVideos = useVideoList("/videos");
 
   const stats = [
     { label: "Women Empowered", value: "2,500+", icon: Users },
@@ -151,43 +153,141 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
-        
-        <div className="container relative">
-          <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-6 bg-secondary text-secondary-foreground">
-              <Star className="w-3 h-3 mr-1" />
-              Empowering Displaced Black Women Since 2024
-            </Badge>
-            
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent">
-              Your New Beginning Starts Here
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              AI-powered training, business formation support, and a thriving community to help you build the career and business of your dreams.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href={isAuthenticated ? "/dashboard" : getLoginUrl()}>
-                <Button size="lg" className="text-lg px-8 py-6">
-                  Start Your Journey
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </a>
-              <Link href="/courses">
-                <Button size="lg" variant="outline" className="text-lg px-8 py-6">
-                  Explore Courses
-                </Button>
-              </Link>
-            </div>
+      {/* Hero Section with Video Background */}
+      <VideoCarousel
+        videos={heroVideos}
+        interval={10000}
+        className="min-h-screen"
+      >
+        <section className="pt-32 pb-20 px-4 min-h-screen flex items-center">
+          <div className="container relative">
+            <motion.div 
+              className="max-w-4xl mx-auto text-center"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <Badge className="mb-6 bg-white/20 text-white border-white/30 backdrop-blur-sm">
+                  <Star className="w-3 h-3 mr-1" />
+                  Empowering Displaced Black Women Since 2024
+                </Badge>
+              </motion.div>
+              
+              <motion.h1 
+                className="text-5xl md:text-7xl font-bold mb-6 text-white drop-shadow-2xl"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                <span className="bg-gradient-to-r from-white via-white to-primary-foreground bg-clip-text">
+                  Your New Beginning
+                </span>
+                <br />
+                <motion.span
+                  className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent"
+                  animate={{ 
+                    backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                  }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                  style={{ backgroundSize: "200% 200%" }}
+                >
+                  Starts Here
+                </motion.span>
+              </motion.h1>
+              
+              <motion.p 
+                className="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl mx-auto drop-shadow-lg"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+              >
+                AI-powered training, business formation support, and a thriving community to help you build the career and business of your dreams.
+              </motion.p>
+              
+              <motion.div 
+                className="flex flex-col sm:flex-row gap-4 justify-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+              >
+                <motion.a 
+                  href={isAuthenticated ? "/dashboard" : getLoginUrl()}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button size="lg" className="text-lg px-8 py-6 bg-primary hover:bg-primary/90 shadow-2xl shadow-primary/30">
+                    Start Your Journey
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Button>
+                </motion.a>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link href="/courses">
+                    <Button size="lg" variant="outline" className="text-lg px-8 py-6 bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm">
+                      Explore Courses
+                    </Button>
+                  </Link>
+                </motion.div>
+              </motion.div>
+
+              {/* Floating Stats Preview */}
+              <motion.div
+                className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+              >
+                {[
+                  { value: "2,500+", label: "Women Empowered" },
+                  { value: "25+", label: "Courses" },
+                  { value: "450+", label: "Businesses" },
+                  { value: "$2.5M+", label: "Funding" },
+                ].map((stat, i) => (
+                  <motion.div
+                    key={i}
+                    className="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20"
+                    whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.15)" }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.9 + i * 0.1 }}
+                  >
+                    <div className="text-2xl md:text-3xl font-bold text-white">{stat.value}</div>
+                    <div className="text-sm text-white/70">{stat.label}</div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
           </div>
-        </div>
-      </section>
+
+          {/* Scroll Indicator */}
+          <motion.div
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:flex flex-col items-center gap-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5 }}
+          >
+            <span className="text-white/60 text-sm">Scroll to explore</span>
+            <motion.div
+              className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-2"
+              animate={{ y: [0, 5, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              <motion.div
+                className="w-1.5 h-3 bg-white/60 rounded-full"
+                animate={{ opacity: [1, 0.3, 1], y: [0, 8, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              />
+            </motion.div>
+          </motion.div>
+        </section>
+      </VideoCarousel>
 
       {/* Stats Section */}
       <section className="py-16 bg-muted/50">
