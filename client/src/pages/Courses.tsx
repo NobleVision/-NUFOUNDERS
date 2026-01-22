@@ -364,7 +364,9 @@ export default function Courses() {
                     {course.skillLevel}
                   </Badge>
                 </div>
-                <CardTitle className="line-clamp-2">{course.title}</CardTitle>
+                <Link href={`/courses/${course.slug}`}>
+                  <CardTitle className="line-clamp-2 hover:text-primary cursor-pointer transition-colors">{course.title}</CardTitle>
+                </Link>
                 <CardDescription className="line-clamp-2">{course.shortDescription}</CardDescription>
               </CardHeader>
               
