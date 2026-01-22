@@ -557,6 +557,8 @@ flowchart TB
 - **Claude 3** - Ethical review
 - **Grok** - Market analysis
 - **Vector embeddings** - Peer matching
+- **OpenAI TTS** - Text-to-speech with "onyx" voice
+- **Nova AI Assistant** - Context-aware global chatbot
 
 ### Infrastructure
 - **Vercel** - Hosting and deployment
@@ -620,6 +622,25 @@ trpc.community.listGroups.useQuery()
 
 // Join group
 trpc.community.joinGroup.useMutation({ groupId })
+```
+
+### AI & Voice Endpoints
+
+```typescript
+// Global AI chat with context-aware responses
+trpc.ai.chat.useMutation({ messages, context? })
+
+// Business idea brainstorming
+trpc.ai.brainstorm.useMutation({ skills, interests, capitalAvailable, timeAvailable })
+
+// Document analysis
+trpc.document.analyze.useMutation({ content, documentType })
+
+// Text-to-speech synthesis
+trpc.voice.synthesize.useMutation({ text, voice? })
+
+// Real-time chat polling
+trpc.chat.poll.query({ roomId, since })
 ```
 
 ---
@@ -689,6 +710,7 @@ vercel
 | `GITHUB_CLIENT_SECRET` | GitHub OAuth client secret | ❌ |
 | `VITE_GITHUB_CLIENT_ID` | Same as GITHUB_CLIENT_ID (for frontend) | ❌ |
 | `VITE_APP_ID` | Application identifier (default: "nufounders") | ❌ |
+| `OPENAI_API` | OpenAI API key for AI chat and TTS | ✅ |
 
 ### API Routes Structure
 

@@ -2,6 +2,21 @@
 
 ## 🚀 Current Sprint: Platform Enhancements (January 22, 2026)
 
+### Completed (January 22, 2026) - Global AI Chatbot
+- [x] Create `GlobalAIChatBox` component with floating action button
+- [x] Add `ai.chat` tRPC endpoint with `invokeLLM` integration
+- [x] Implement context-aware suggested prompts based on current page
+- [x] Add chat history persistence with localStorage (last 50 messages)
+- [x] Integrate Nova AI assistant into App.tsx for all pages
+- [x] Add page-specific prompts for Dashboard, Courses, Business, Community, Events, Scholarships
+- [x] Add minimize/maximize and clear chat functionality
+
+### Completed (January 22, 2026) - Document Analyzer & Brainstormer Access
+- [x] Add Document Analyzer tab to Business page
+- [x] Add Business Brainstormer tab to Business page
+- [x] Update Business page tabs layout (4 columns: Ideas, Brainstorm, Analyzer, Competitions)
+- [x] Make course titles clickable to access CourseDetail page with TTS player
+
 ### Completed (January 22, 2026) - Feature Enhancements
 - [x] Create video assets utility library (`client/src/lib/videoAssets.ts`)
 - [x] Integrate video backgrounds into Courses, Business, Community pages
@@ -16,14 +31,11 @@
 - [x] Create CommunityChat frontend component
 - [x] Create EnhancedDashboardStats frontend component
 
-### In Progress
-- [ ] Run database migrations for new tables (`pnpm drizzle-kit push`)
-- [ ] Test AI services with actual OpenAI API key
-
 ### Completed (January 22, 2026) - API Integration
 - [x] Connect DocumentAnalyzer to real `document.analyze` API (with fallback)
 - [x] Connect BusinessBrainstormer to real `ai.brainstorm` API (with fallback)
 - [x] Connect CommunityChat to real `chat.sendMessage` and `chat.poll` APIs
+- [x] Connect TTS Player to real `voice.synthesize` API (with fallback demo mode)
 
 ### Completed (January 22, 2026) - WebSocket/Chat Infrastructure
 - [x] Create WebSocket infrastructure module (`server/_core/websocket.ts`)
@@ -34,7 +46,7 @@
 
 ### Completed (January 22, 2026) - Backend & TTS
 - [x] Add tRPC router endpoints for document analysis (`document.analyze`)
-- [x] Add tRPC router endpoints for AI features (`ai.recommendations`, `ai.brainstorm`)
+- [x] Add tRPC router endpoints for AI features (`ai.recommendations`, `ai.brainstorm`, `ai.chat`)
 - [x] Add tRPC router endpoints for dashboard stats (`dashboard.stats`)
 - [x] Add tRPC router endpoints for TTS (`voice.synthesize`, `voice.estimateCost`)
 - [x] Create TTS service module (`server/_core/textToSpeech.ts`)
@@ -43,20 +55,20 @@
 - [x] Integrate TTS into CourseDetail page
 - [x] Create Business Idea Brainstormer UI component
 
-### Remaining Tasks - TTS Integration
-- [ ] Integrate TTS into DocumentAnalyzer feedback section
-- [ ] Integrate TTS into success stories on Community page
-- [ ] Add TTS to dashboard greeting/encouragement
-- [ ] Add TTS to achievement celebrations
-
-### Remaining Tasks - General
-- [ ] Connect DocumentAnalyzer to real `document.analyze` API
-- [ ] Connect BusinessBrainstormer to real `ai.brainstorm` API
-- [ ] Connect EnhancedDashboardStats to real `dashboard.stats` API
-- [ ] Implement WebSocket for real-time chat (production)
-- [ ] Add file upload for document analysis (PDF parsing)
+### Suggested Next Tasks - High Priority
+- [ ] Add TTS to DocumentAnalyzer summary section
+- [ ] Add TTS to success stories on Community page
+- [ ] Implement file upload for document analysis (PDF parsing)
 - [ ] Add resume/LinkedIn optimizer feature
-- [ ] Create notification system for chat messages
+- [ ] Certificate generation (PDF export) for course completion
+- [ ] SME review workflow UI for AI-generated courses
+
+### Suggested Next Tasks - Medium Priority
+- [ ] Implement real WebSocket for production chat (replace polling)
+- [ ] Add notification system for chat messages
+- [ ] Add TTS to dashboard greeting/encouragement
+- [ ] Employer portal (B2B) - talent search functionality
+- [ ] Vector database (pgvector) for semantic user matching
 
 ---
 
