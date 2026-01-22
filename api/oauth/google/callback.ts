@@ -1,6 +1,7 @@
 import { SignJWT } from 'jose';
 import { COOKIE_NAME, ONE_YEAR_MS } from '../../../shared/const';
 import { ENV } from '../../../server/_core/env';
+import * as db from '../../../server/db';
 
 export const config = {
   runtime: 'edge',
@@ -38,6 +39,15 @@ export default async function handler(req: Request) {
     }
 
     const userInfo = await handleGoogleOAuth(code, redirectUri);
+
+    // Save user to database
+    await db.upsertUser({
+      openId: userInfo.openId,
+      name: userInfo.name,
+      email: userInfo.email,
+      loginMethod: userInfo.loginMethod,
+      lastSignedIn: new Date(),
+    });
 
     // Create session token
     const sessionToken = await createSessionToken(userInfo.openId, userInfo.name);

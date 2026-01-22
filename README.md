@@ -545,12 +545,12 @@ flowchart TB
 - **shadcn/ui** - Component library
 
 ### Backend
-- **Express 4** - HTTP server
+- **Vercel Edge Functions** - Serverless API handlers
 - **tRPC 11** - Type-safe API layer
 - **Drizzle ORM** - Database toolkit
-- **MySQL/TiDB** - Relational database
-- **S3** - File storage
-- **Manus OAuth** - Authentication
+- **Neon PostgreSQL** - Serverless database
+- **jose** - JWT session management
+- **Google/GitHub OAuth** - Authentication
 
 ### AI/ML
 - **OpenAI GPT-4** - Content generation
@@ -559,7 +559,7 @@ flowchart TB
 - **Vector embeddings** - Peer matching
 
 ### Infrastructure
-- **Manus Platform** - Hosting and deployment
+- **Vercel** - Hosting and deployment
 - **GitHub** - Version control
 - **Vitest** - Testing framework
 
@@ -627,10 +627,11 @@ trpc.community.joinGroup.useMutation({ groupId })
 ## Deployment
 
 ### Prerequisites
-- Node.js 22+
+- Node.js 20.x (Vercel compatible)
 - pnpm 10+
-- MySQL/TiDB database
-- S3-compatible storage
+- Neon PostgreSQL database
+- Google Cloud Console (for OAuth)
+- GitHub OAuth App (optional)
 
 ### Local Development
 
@@ -648,26 +649,60 @@ node scripts/seed-data.mjs
 pnpm dev
 ```
 
-### Production Build
+### Vercel Deployment
 
 ```bash
-# Build for production
-pnpm build
+# Install Vercel CLI
+npm i -g vercel
 
-# Start production server
-pnpm start
+# Deploy to Vercel
+vercel
 ```
+
+### OAuth Configuration
+
+#### Google OAuth Setup
+1. Go to [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
+2. Create OAuth 2.0 Client ID (Web application)
+3. Add authorized JavaScript origins:
+   - `http://localhost:5173` (local dev)
+   - `https://your-domain.com` (production)
+4. Add authorized redirect URIs:
+   - `http://localhost:5173/api/oauth/google/callback`
+   - `https://your-domain.com/api/oauth/google/callback`
+
+#### GitHub OAuth Setup (Optional)
+1. Go to [GitHub Developer Settings](https://github.com/settings/developers)
+2. Create new OAuth App
+3. Set callback URL: `https://your-domain.com/api/oauth/github/callback`
 
 ### Environment Variables
 
-| Variable | Description |
-|----------|-------------|
-| DATABASE_URL | MySQL connection string |
-| JWT_SECRET | Session signing secret |
-| VITE_APP_ID | Manus OAuth app ID |
-| OAUTH_SERVER_URL | OAuth backend URL |
-| BUILT_IN_FORGE_API_URL | AI services URL |
-| BUILT_IN_FORGE_API_KEY | AI services key |
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `DATABASE_URL` | Neon PostgreSQL connection string | ✅ |
+| `JWT_SECRET` | Session signing secret (32+ chars, generate with `openssl rand -base64 32`) | ✅ |
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID | ✅ |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret | ✅ |
+| `VITE_GOOGLE_CLIENT_ID` | Same as GOOGLE_CLIENT_ID (for frontend) | ✅ |
+| `GITHUB_CLIENT_ID` | GitHub OAuth client ID | ❌ |
+| `GITHUB_CLIENT_SECRET` | GitHub OAuth client secret | ❌ |
+| `VITE_GITHUB_CLIENT_ID` | Same as GITHUB_CLIENT_ID (for frontend) | ❌ |
+| `VITE_APP_ID` | Application identifier (default: "nufounders") | ❌ |
+
+### API Routes Structure
+
+```
+api/
+├── oauth/
+│   ├── google/
+│   │   └── callback.ts    # Google OAuth callback handler
+│   ├── github/
+│   │   └── callback.ts    # GitHub OAuth callback handler
+│   └── callback.ts        # Legacy unified callback
+└── trpc/
+    └── [trpc].ts          # tRPC edge function handler
+```
 
 ---
 

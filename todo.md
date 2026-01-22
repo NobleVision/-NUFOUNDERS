@@ -2,7 +2,7 @@
 
 ## 🚀 Current Sprint: Vercel Deployment & Cleanup
 
-### Completed (January 2026)
+### Completed (January 21, 2026)
 - [x] Remove Manus AI dependencies from vite.config.ts
 - [x] Remove vite-plugin-manus-runtime from package.json
 - [x] Replace ManusDialog with generic LoginDialog component
@@ -12,11 +12,25 @@
 - [x] Update .env.example with new OAuth configuration
 - [x] Add UI animation components (Framer Motion)
 - [x] Update SETUP.md with Vercel deployment instructions
+- [x] Fix Node.js version compatibility (set to 20.x)
+- [x] Remove explicit runtime from vercel.json causing version conflicts
+- [x] Fix Edge Function module resolution (@shared alias → relative paths)
+- [x] Fix PostgreSQL insert patterns (use .returning() instead of insertId)
+- [x] Create provider-specific OAuth callback routes (/api/oauth/google/callback)
+- [x] Fix redirect_uri_mismatch error for Google OAuth
+- [x] Fix JWT secret mismatch between OAuth callback and SDK
+- [x] Fix cookie reading in authenticateRequest (support both parsed and header)
+- [x] Move videos to client/public/videos/ for Vite serving
+- [x] Add videos to git tracking for Vercel deployment
+- [x] Generate secure JWT_SECRET for production
+- [x] Update README.md with Vercel deployment and OAuth setup
 
 ### In Progress
-- [ ] Delete Manus debug files (`client/public/__manus__/`)
-- [ ] Test local development with new OAuth flow
-- [ ] Verify Vercel deployment works end-to-end
+- [ ] Test production OAuth flow end-to-end
+- [ ] Verify video carousel works on deployed site
+
+### Blocked / Needs Attention
+- [ ] Delete Manus debug files (`client/public/__manus__/`) - manual cleanup needed
 
 ---
 
@@ -152,14 +166,18 @@
 ### Immediate
 - [ ] Delete `client/public/__manus__/` debug folder
 - [ ] Delete `dist/public/__manus__/` from build output
-- [ ] Remove legacy Manus references from README.md
+- [x] Remove legacy Manus references from README.md
 - [ ] Clean up unused OAuth types in `server/_core/types/`
+- [ ] Add error boundary for OAuth failures on frontend
+- [ ] Add loading state during OAuth redirect
 
 ### Testing
 - [ ] Comprehensive unit test coverage (target: 80%)
 - [ ] E2E testing with Playwright
 - [ ] API integration tests for tRPC routes
 - [ ] OAuth flow testing (Google/GitHub)
+- [ ] Session persistence testing across page reloads
+- [ ] Cookie security testing (HttpOnly, Secure, SameSite)
 
 ### Performance & Security
 - [ ] Performance optimization audit
@@ -214,4 +232,42 @@
 - Security hardening
 - Documentation finalization
 - Production launch
+
+---
+
+## 🔐 Security Checklist (Pre-Production)
+
+- [x] JWT_SECRET generated with cryptographically secure method
+- [x] Cookies set with HttpOnly, Secure, SameSite=Lax
+- [ ] Rate limiting on OAuth endpoints
+- [ ] CSRF protection for state parameter validation
+- [ ] Environment variables validated at startup
+- [ ] Secrets not logged or exposed in error messages
+- [ ] Database connection uses SSL in production
+
+---
+
+## 📝 Session Notes (January 21, 2026)
+
+### Issues Resolved This Session
+
+1. **Node.js Version Conflict**: Vercel was showing contradictory error messages (asking for 18.x, then 20.x, then 24.x). Root cause was explicit `runtime: "@vercel/node@3.0.0"` in vercel.json forcing an outdated builder.
+
+2. **Edge Function Module Resolution**: `@shared/*` path aliases don't work in Vercel's edge bundler. Fixed by converting to relative imports.
+
+3. **PostgreSQL Insert Pattern**: MySQL's `insertId` doesn't exist in PostgreSQL. Fixed by using Drizzle's `.returning()` method.
+
+4. **OAuth redirect_uri_mismatch**: App was sending `/api/oauth/callback` but Google Console expected `/api/oauth/google/callback`. Created provider-specific routes.
+
+5. **Session Not Persisting**: Two issues:
+   - JWT secret fallback mismatch between OAuth callback and SDK
+   - Cookie reading only checked `req.headers.cookie`, not `req.cookies`
+
+6. **Videos Not Deploying**: Videos were in wrong directory (`public/videos/` instead of `client/public/videos/`) and not tracked in git.
+
+### Architecture Decisions
+
+- **Provider-specific OAuth routes**: `/api/oauth/google/callback` and `/api/oauth/github/callback` for cleaner separation
+- **Shared ENV config**: All services use `server/_core/env.ts` for consistent environment variable access
+- **Edge-compatible types**: Custom interfaces instead of Express types for Vercel Edge Functions
 
