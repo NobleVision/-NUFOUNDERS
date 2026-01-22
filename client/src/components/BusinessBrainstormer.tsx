@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -84,6 +85,55 @@ export function BusinessBrainstormer() {
     setInterests(interests.filter(i => i !== interest));
   };
 
+  // tRPC mutation for brainstorming
+  const brainstormMutation = trpc.ai.brainstorm.useMutation({
+    onSuccess: (data) => {
+      setResult(data as BrainstormResult);
+      setIsLoading(false);
+      toast.success("Ideas generated! Review your personalized suggestions below.");
+    },
+    onError: (error) => {
+      console.error("Brainstorm failed, using mock data:", error);
+      useMockResult();
+    },
+  });
+
+  const useMockResult = useCallback(() => {
+    const mockResult: BrainstormResult = {
+      ideas: [
+        {
+          title: "Virtual Event Coordination Service",
+          description: "Help businesses and individuals plan and execute memorable virtual and hybrid events.",
+          whyItFits: "Your skills are perfect for this growing market.",
+          estimatedStartupCost: "$2,000 - $5,000",
+          potentialRevenue: "$5,000 - $15,000/month"
+        },
+        {
+          title: "Social Media Management Agency",
+          description: "Offer done-for-you social media management for local businesses and personal brands.",
+          whyItFits: "Help small businesses maintain a consistent online presence.",
+          estimatedStartupCost: "$1,000 - $3,000",
+          potentialRevenue: "$3,000 - $10,000/month"
+        },
+        {
+          title: "Online Course Creator & Coach",
+          description: "Package your expertise into online courses and coaching programs.",
+          whyItFits: "Share your knowledge at scale through digital platforms.",
+          estimatedStartupCost: "$500 - $2,000",
+          potentialRevenue: "$2,000 - $20,000/month"
+        },
+      ],
+      followUpQuestions: [
+        "Do you have industry-specific experience?",
+        "Are you interested in B2B or B2C?",
+        "Would you prefer service or product-based business?"
+      ]
+    };
+    setResult(mockResult);
+    setIsLoading(false);
+    toast.success("Ideas generated! (Demo mode)");
+  }, []);
+
   const handleBrainstorm = useCallback(async () => {
     if (skills.length === 0 && interests.length === 0) {
       toast.error("Please add at least one skill or interest");
@@ -91,54 +141,21 @@ export function BusinessBrainstormer() {
     }
 
     setIsLoading(true);
-    
-    // Simulate API call for demo
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    // Mock result
-    const mockResult: BrainstormResult = {
-      ideas: [
-        {
-          title: "Virtual Event Coordination Service",
-          description: "Help businesses and individuals plan and execute memorable virtual and hybrid events. Manage everything from platform selection to attendee engagement strategies.",
-          whyItFits: "Your event planning and technology skills are perfect for this growing market. Post-pandemic, businesses still need help navigating virtual events effectively.",
-          estimatedStartupCost: "$2,000 - $5,000",
-          potentialRevenue: "$5,000 - $15,000/month"
-        },
-        {
-          title: "Social Media Management Agency",
-          description: "Offer done-for-you social media management for local businesses and personal brands. Create content calendars, manage engagement, and run targeted ad campaigns.",
-          whyItFits: "With your marketing and social media skills, you can help small businesses that lack the time or expertise to maintain a consistent online presence.",
-          estimatedStartupCost: "$1,000 - $3,000",
-          potentialRevenue: "$3,000 - $10,000/month"
-        },
-        {
-          title: "Online Course Creator & Coach",
-          description: "Package your expertise into online courses and coaching programs. Use platforms like Teachable or Kajabi to reach students globally.",
-          whyItFits: "Your teaching background combined with your subject expertise creates a perfect foundation for sharing knowledge at scale.",
-          estimatedStartupCost: "$500 - $2,000",
-          potentialRevenue: "$2,000 - $20,000/month"
-        },
-        {
-          title: "E-commerce Personal Shopper",
-          description: "Help busy professionals curate wardrobes or find specific products. Offer subscription boxes or one-time shopping services with personalized recommendations.",
-          whyItFits: "Your eye for detail and customer service skills translate well into providing personalized shopping experiences.",
-          estimatedStartupCost: "$1,500 - $4,000",
-          potentialRevenue: "$4,000 - $12,000/month"
-        }
-      ],
-      followUpQuestions: [
-        "Do you have any industry-specific experience that could give you a competitive edge?",
-        "Are you interested in working with businesses (B2B) or consumers (B2C)?",
-        "Would you prefer a service-based or product-based business?",
-        "Do you have an existing network you could leverage for your first clients?"
-      ]
-    };
+    setResult(null);
 
-    setResult(mockResult);
-    setIsLoading(false);
-    toast.success("Ideas generated! Review your personalized suggestions below.");
-  }, [skills, interests]);
+    try {
+      await brainstormMutation.mutateAsync({
+        skills,
+        interests,
+        capitalAvailable,
+        timeAvailable,
+        preferences: preferences || undefined,
+      });
+    } catch {
+      // Error handled in onError callback
+    }
+  }, [skills, interests, capitalAvailable, timeAvailable, preferences, brainstormMutation]);
+
 
   const formatCapital = (value: number) => {
     if (value >= 1000) {

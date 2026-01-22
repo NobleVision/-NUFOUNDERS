@@ -6,6 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { trpc } from "@/lib/trpc";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Send,
@@ -109,8 +110,53 @@ export function CommunityChat({ roomId = 1, roomName = "Women in Tech", classNam
   const [inputValue, setInputValue] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<ChatRoom>(MOCK_ROOMS[0]);
+  const [lastPollTime, setLastPollTime] = useState(Date.now() - 60000);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // tRPC mutations and queries
+  const sendMessageMutation = trpc.chat.sendMessage.useMutation({
+    onSuccess: (data) => {
+      // Message already added optimistically, just update with server data
+      setLastPollTime(Date.now());
+    },
+    onError: (error) => {
+      console.error("Failed to send message:", error);
+    },
+  });
+
+  // Poll for new messages every 3 seconds when authenticated
+  const { data: pollData } = trpc.chat.poll.useQuery(
+    { roomId: selectedRoom.id, since: lastPollTime },
+    { 
+      enabled: isAuthenticated,
+      refetchInterval: 3000, // Poll every 3 seconds
+      refetchIntervalInBackground: false,
+    }
+  );
+
+  // Update messages when poll data arrives
+  useEffect(() => {
+    if (pollData?.messages && pollData.messages.length > 0) {
+      const newMessages = pollData.messages.filter(
+        pm => !messages.some(m => m.id === pm.userId && m.timestamp.getTime() === new Date(pm.timestamp).getTime())
+      );
+      if (newMessages.length > 0) {
+        setMessages(prev => [
+          ...prev,
+          ...newMessages.map(m => ({
+            id: m.userId * 1000 + Date.now(),
+            userId: m.userId,
+            userName: m.userName,
+            content: m.content,
+            timestamp: new Date(m.timestamp),
+            isOwn: m.userId === user?.id,
+          })),
+        ]);
+        setLastPollTime(pollData.lastPollTime);
+      }
+    }
+  }, [pollData, messages, user?.id]);
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -127,7 +173,7 @@ export function CommunityChat({ roomId = 1, roomName = "Women in Tech", classNam
 
     const newMessage: ChatMessage = {
       id: messages.length + 1,
-      userId: 1,
+      userId: user?.id || 1,
       userName: user?.name || "You",
       content: inputValue.trim(),
       timestamp: new Date(),
@@ -136,10 +182,20 @@ export function CommunityChat({ roomId = 1, roomName = "Women in Tech", classNam
 
     setIsSending(true);
     setMessages(prev => [...prev, newMessage]);
+    const messageContent = inputValue.trim();
     setInputValue("");
 
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 500));
+    // Try to send via API, fall back to demo mode
+    try {
+      await sendMessageMutation.mutateAsync({
+        roomId: selectedRoom.id,
+        content: messageContent,
+      });
+    } catch {
+      // Already added optimistically, just log
+      console.log("Message sent in demo mode");
+    }
+    
     setIsSending(false);
 
     // Focus back on input

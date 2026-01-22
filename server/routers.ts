@@ -5,7 +5,9 @@ import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import * as db from "./db";
-import { generateCourse, scoreBusinessIdea, generateBusinessPlan, analyzeUserProfile, moderateContent } from "./services/aiServices";
+import { generateCourse, scoreBusinessIdea, generateBusinessPlan, analyzeUserProfile, moderateContent, analyzeBusinessDocument, generatePersonalizedRecommendations, brainstormBusinessIdeas } from "./services/aiServices";
+import { synthesizeSpeech, getVoiceForContext, splitTextForTTS, estimateTTSCost } from "./_core/textToSpeech";
+import { chatStore, createChatMessage, pollRoomUpdates, formatMessageForClient, sanitizeMessageContent } from "./_core/websocket";
 import { nanoid } from "nanoid";
 
 // ============================================================================
@@ -692,6 +694,253 @@ const notificationRouter = router({
 });
 
 // ============================================================================
+// VOICE ROUTER (TTS & STT)
+// ============================================================================
+
+const voiceRouter = router({
+  synthesize: protectedProcedure
+    .input(z.object({
+      text: z.string().min(1).max(4096),
+      voice: z.enum(["alloy", "ash", "ballad", "coral", "echo", "fable", "nova", "onyx", "sage", "shimmer"]).optional().default("onyx"),
+      speed: z.number().min(0.25).max(4.0).optional().default(1.0),
+      context: z.enum([
+        "course_lesson", "course_intro", "feedback_positive", "feedback_constructive",
+        "success_story", "dashboard_greeting", "achievement_unlocked", "pitch_feedback",
+        "onboarding", "encouragement"
+      ]).optional(),
+    }))
+    .mutation(async ({ input }) => {
+      const voice = input.context 
+        ? getVoiceForContext(input.context)
+        : input.voice;
+      
+      const result = await synthesizeSpeech({
+        text: input.text,
+        voice,
+        speed: input.speed,
+      });
+
+      if ("error" in result) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: result.error,
+          cause: result,
+        });
+      }
+
+      return result;
+    }),
+
+  estimateCost: publicProcedure
+    .input(z.object({ text: z.string() }))
+    .query(({ input }) => {
+      return {
+        characters: input.text.length,
+        estimatedCost: estimateTTSCost(input.text),
+        chunks: splitTextForTTS(input.text).length,
+      };
+    }),
+});
+
+// ============================================================================
+// DOCUMENT ANALYSIS ROUTER
+// ============================================================================
+
+const documentRouter = router({
+  analyze: protectedProcedure
+    .input(z.object({
+      documentText: z.string().min(100).max(50000),
+      documentType: z.enum(["business_plan", "pitch_deck", "financial_projection", "marketing_plan", "resume", "other"]),
+      businessContext: z.string().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const profile = await db.getUserProfile(ctx.user.id);
+      
+      const result = await analyzeBusinessDocument({
+        documentText: input.documentText,
+        documentType: input.documentType,
+        businessContext: input.businessContext,
+        userBackground: profile?.previousRole 
+          ? `${profile.previousRole} with ${profile.yearsExperience || 0} years experience`
+          : undefined,
+      });
+
+      return result;
+    }),
+});
+
+// ============================================================================
+// AI FEATURES ROUTER
+// ============================================================================
+
+const aiRouter = router({
+  recommendations: protectedProcedure
+    .mutation(async ({ ctx }) => {
+      const profile = await db.getUserProfile(ctx.user.id);
+      const enrollments = await db.getUserEnrollments(ctx.user.id);
+      const businessIdeas = await db.getUserBusinessIdeas(ctx.user.id);
+
+      const completedCourseIds = enrollments
+        .filter(e => e.status === "completed")
+        .map(e => e.courseId);
+      
+      // Get course titles for completed courses
+      const completedCourses = completedCourseIds.map(id => `Course ${id}`);
+
+      const result = await generatePersonalizedRecommendations({
+        skills: profile?.skills || [],
+        interests: profile?.interests || [],
+        completedCourses,
+        businessGoals: profile?.businessGoals || [],
+        currentProgress: {
+          coursesCompleted: completedCourses.length,
+          businessIdeas: businessIdeas.length,
+          pitchesSubmitted: 0, // TODO: Add pitch tracking
+        },
+      });
+
+      return result;
+    }),
+
+  brainstorm: protectedProcedure
+    .input(z.object({
+      skills: z.array(z.string()),
+      interests: z.array(z.string()),
+      capitalAvailable: z.number().min(0),
+      timeAvailable: z.string(),
+      preferences: z.string().optional(),
+    }))
+    .mutation(async ({ input }) => {
+      const result = await brainstormBusinessIdeas(input);
+      return result;
+    }),
+});
+
+// ============================================================================
+// CHAT ROUTER (Real-time messaging)
+// ============================================================================
+
+const chatRouter = router({
+  getRooms: protectedProcedure.query(() => {
+    // Return available chat rooms
+    return [
+      { id: 1, name: 'Women in Tech', type: 'group', memberCount: 342 },
+      { id: 2, name: 'E-commerce Builders', type: 'group', memberCount: 278 },
+      { id: 3, name: 'Atlanta Entrepreneurs', type: 'group', memberCount: 156 },
+      { id: 4, name: 'New Founders Hub', type: 'group', memberCount: 89 },
+      { id: 5, name: 'Mentor Lounge', type: 'mentor', memberCount: 45 },
+    ];
+  }),
+
+  joinRoom: protectedProcedure
+    .input(z.object({ roomId: z.number() }))
+    .mutation(({ ctx, input }) => {
+      chatStore.joinRoom(input.roomId, ctx.user.id);
+      chatStore.setUserPresence(ctx.user.id, 'online', input.roomId);
+      return { success: true };
+    }),
+
+  leaveRoom: protectedProcedure
+    .input(z.object({ roomId: z.number() }))
+    .mutation(({ ctx, input }) => {
+      chatStore.leaveRoom(input.roomId, ctx.user.id);
+      chatStore.setUserPresence(ctx.user.id, 'online', undefined);
+      return { success: true };
+    }),
+
+  sendMessage: protectedProcedure
+    .input(z.object({
+      roomId: z.number(),
+      content: z.string().min(1).max(2000),
+    }))
+    .mutation(({ ctx, input }) => {
+      const sanitizedContent = sanitizeMessageContent(input.content);
+      const message = createChatMessage(
+        input.roomId,
+        ctx.user.id,
+        ctx.user.name || 'Anonymous',
+        sanitizedContent
+      );
+      chatStore.addMessage(message);
+      return formatMessageForClient(message);
+    }),
+
+  poll: protectedProcedure
+    .input(z.object({
+      roomId: z.number(),
+      since: z.number().optional(),
+    }))
+    .query(({ input }) => {
+      const sinceTime = input.since || Date.now() - 60000; // Last minute by default
+      const result = pollRoomUpdates(input.roomId, sinceTime);
+      return {
+        messages: result.messages.map(formatMessageForClient),
+        presence: result.presence,
+        lastPollTime: result.lastPollTime,
+      };
+    }),
+
+  getRecentMessages: protectedProcedure
+    .input(z.object({
+      roomId: z.number(),
+      limit: z.number().min(1).max(100).optional(),
+    }))
+    .query(({ input }) => {
+      const messages = chatStore.getRecentMessages(input.roomId, input.limit || 50);
+      return messages.map(formatMessageForClient);
+    }),
+});
+
+// ============================================================================
+// DASHBOARD STATS ROUTER
+// ============================================================================
+
+const dashboardRouter = router({
+  stats: protectedProcedure.query(async ({ ctx }) => {
+    const [enrollments, businessIdeas, profile] = await Promise.all([
+      db.getUserEnrollments(ctx.user.id),
+      db.getUserBusinessIdeas(ctx.user.id),
+      db.getUserProfile(ctx.user.id),
+    ]);
+
+    const completedCourses = enrollments.filter(e => e.status === "completed").length;
+    const inProgressCourses = enrollments.filter(e => e.status === "in_progress").length;
+
+    return {
+      learning: {
+        totalEnrolled: enrollments.length,
+        completed: completedCourses,
+        inProgress: inProgressCourses,
+        totalHours: completedCourses * 8, // Estimate 8 hours per course
+        certificates: completedCourses,
+      },
+      business: {
+        totalIdeas: businessIdeas.length,
+        inPlanning: businessIdeas.filter(b => b.stage === "idea").length,
+        launched: businessIdeas.filter(b => b.stage === "launched").length,
+        pitchesSubmitted: 0, // TODO
+        avgScore: businessIdeas.length > 0 
+          ? Math.round(businessIdeas.reduce((sum, b) => sum + (b.score || 0), 0) / businessIdeas.length)
+          : 0,
+      },
+      community: {
+        postsCreated: 0, // TODO: Add post tracking
+        repliesGiven: 0,
+        groupsJoined: 0,
+        eventsAttended: 0,
+        connectionsCount: 0,
+      },
+      achievements: {
+        badges: [],
+        milestones: [],
+        totalPoints: completedCourses * 100 + businessIdeas.length * 50,
+        level: Math.floor((completedCourses * 100 + businessIdeas.length * 50) / 250) + 1,
+      },
+    };
+  }),
+});
+
+// ============================================================================
 // MAIN ROUTER
 // ============================================================================
 
@@ -707,6 +956,11 @@ export const appRouter = router({
   survey: surveyRouter,
   analytics: analyticsRouter,
   notification: notificationRouter,
+  voice: voiceRouter,
+  document: documentRouter,
+  ai: aiRouter,
+  dashboard: dashboardRouter,
+  chat: chatRouter,
 });
 
 export type AppRouter = typeof appRouter;

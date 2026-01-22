@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { TTSPlayer, TTSInlineButton } from "@/components/ui/tts-player";
 import { trpc } from "@/lib/trpc";
 import { Link, useParams } from "wouter";
 import { toast } from "sonner";
@@ -17,7 +18,8 @@ import {
   Play,
   Lock,
   Award,
-  Sparkles
+  Sparkles,
+  Volume2
 } from "lucide-react";
 
 // Mock course detail data
@@ -193,14 +195,24 @@ export default function CourseDetail() {
             {/* Description */}
             <Card>
               <CardHeader>
-                <CardTitle>About This Course</CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle>About This Course</CardTitle>
+                  <TTSInlineButton text={course.description} />
+                </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-4">
                 <div className="prose prose-gray max-w-none">
                   {course.description.split('\n\n').map((paragraph, index) => (
                     <p key={index} className="text-muted-foreground mb-4">{paragraph}</p>
                   ))}
                 </div>
+                {/* TTS Player for course description */}
+                <TTSPlayer 
+                  text={course.description}
+                  label="Listen to Course Description"
+                  voice="onyx"
+                  showText={false}
+                />
               </CardContent>
             </Card>
 

@@ -17,20 +17,45 @@
 - [x] Create EnhancedDashboardStats frontend component
 
 ### In Progress
-- [ ] Integrate DocumentAnalyzer into Business page
-- [ ] Integrate CommunityChat into Community page
-- [ ] Integrate EnhancedDashboardStats into Dashboard page
-- [ ] Add tRPC router endpoints for document analysis
-- [ ] Add tRPC router endpoints for chat functionality
-- [ ] Add tRPC router endpoints for dashboard stats
-- [ ] Run database migrations for new tables
-- [ ] Test AI services with actual OpenAI API
+- [ ] Run database migrations for new tables (`pnpm drizzle-kit push`)
+- [ ] Test AI services with actual OpenAI API key
 
-### Remaining Tasks
-- [ ] Create Business Idea Brainstormer UI component
-- [ ] Add resume/LinkedIn optimizer feature
+### Completed (January 22, 2026) - API Integration
+- [x] Connect DocumentAnalyzer to real `document.analyze` API (with fallback)
+- [x] Connect BusinessBrainstormer to real `ai.brainstorm` API (with fallback)
+- [x] Connect CommunityChat to real `chat.sendMessage` and `chat.poll` APIs
+
+### Completed (January 22, 2026) - WebSocket/Chat Infrastructure
+- [x] Create WebSocket infrastructure module (`server/_core/websocket.ts`)
+- [x] Implement in-memory chat store with room management
+- [x] Add chat tRPC router with message, room, and polling endpoints
+- [x] Implement polling-based real-time updates (3-second interval)
+- [x] Add presence tracking and online user management
+
+### Completed (January 22, 2026) - Backend & TTS
+- [x] Add tRPC router endpoints for document analysis (`document.analyze`)
+- [x] Add tRPC router endpoints for AI features (`ai.recommendations`, `ai.brainstorm`)
+- [x] Add tRPC router endpoints for dashboard stats (`dashboard.stats`)
+- [x] Add tRPC router endpoints for TTS (`voice.synthesize`, `voice.estimateCost`)
+- [x] Create TTS service module (`server/_core/textToSpeech.ts`)
+- [x] Create reusable TTS React hook (`hooks/useTextToSpeech.ts`)
+- [x] Create TTS Player UI component (`components/ui/tts-player.tsx`)
+- [x] Integrate TTS into CourseDetail page
+- [x] Create Business Idea Brainstormer UI component
+
+### Remaining Tasks - TTS Integration
+- [ ] Integrate TTS into DocumentAnalyzer feedback section
+- [ ] Integrate TTS into success stories on Community page
+- [ ] Add TTS to dashboard greeting/encouragement
+- [ ] Add TTS to achievement celebrations
+
+### Remaining Tasks - General
+- [ ] Connect DocumentAnalyzer to real `document.analyze` API
+- [ ] Connect BusinessBrainstormer to real `ai.brainstorm` API
+- [ ] Connect EnhancedDashboardStats to real `dashboard.stats` API
 - [ ] Implement WebSocket for real-time chat (production)
-- [ ] Add file upload for document analysis
+- [ ] Add file upload for document analysis (PDF parsing)
+- [ ] Add resume/LinkedIn optimizer feature
 - [ ] Create notification system for chat messages
 
 ---

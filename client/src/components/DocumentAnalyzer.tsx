@@ -8,6 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { TTSPlayer } from "@/components/ui/tts-player";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
@@ -58,24 +59,29 @@ const DOCUMENT_TYPES = [
 
 export function DocumentAnalyzer() {
   const [documentText, setDocumentText] = useState("");
-  const [documentType, setDocumentType] = useState("business_plan");
+  const [documentType, setDocumentType] = useState<"business_plan" | "pitch_deck" | "financial_projection" | "marketing_plan" | "resume" | "other">("business_plan");
   const [businessContext, setBusinessContext] = useState("");
   const [analysis, setAnalysis] = useState<DocumentAnalysis | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [useMockData, setUseMockData] = useState(false);
 
-  // Mock analysis for demo - replace with actual tRPC call when backend is ready
-  const handleAnalyze = useCallback(async () => {
-    if (!documentText.trim()) {
-      toast.error("Please enter document content to analyze");
-      return;
-    }
+  // tRPC mutation for document analysis
+  const analyzeMutation = trpc.document.analyze.useMutation({
+    onSuccess: (data) => {
+      setAnalysis(data as DocumentAnalysis);
+      setIsAnalyzing(false);
+      toast.success("Document analysis complete!");
+    },
+    onError: (error) => {
+      console.error("Analysis failed, using mock data:", error);
+      setUseMockData(true);
+      // Fall back to mock data on error
+      useMockAnalysis();
+    },
+  });
 
-    setIsAnalyzing(true);
-    
-    // Simulate API call for demo
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    // Mock analysis result
+  const useMockAnalysis = useCallback(() => {
+    // Mock analysis result for demo
     const mockAnalysis: DocumentAnalysis = {
       summary: "This business plan demonstrates a solid understanding of the target market and presents a compelling value proposition. The document shows strong potential but would benefit from more detailed financial projections and competitive analysis.",
       strengths: [
@@ -113,11 +119,37 @@ export function DocumentAnalyzer() {
         { name: "Financial Projections", feedback: "Basic projections present. Need more detailed assumptions.", score: 65 }
       ]
     };
-
     setAnalysis(mockAnalysis);
     setIsAnalyzing(false);
-    toast.success("Document analysis complete!");
-  }, [documentText]);
+    toast.success("Document analysis complete! (Demo mode)");
+  }, []);
+
+  const handleAnalyze = useCallback(async () => {
+    if (!documentText.trim()) {
+      toast.error("Please enter document content to analyze");
+      return;
+    }
+
+    if (documentText.length < 100) {
+      toast.error("Please provide more content (at least 100 characters)");
+      return;
+    }
+
+    setIsAnalyzing(true);
+    setAnalysis(null);
+
+    // Try real API first, fall back to mock on error
+    try {
+      await analyzeMutation.mutateAsync({
+        documentText,
+        documentType,
+        businessContext: businessContext || undefined,
+      });
+    } catch {
+      // Error handled in onError callback
+    }
+  }, [documentText, documentType, businessContext, analyzeMutation]);
+
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return "text-green-600";
@@ -148,7 +180,7 @@ export function DocumentAnalyzer() {
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="documentType">Document Type</Label>
-              <Select value={documentType} onValueChange={setDocumentType}>
+              <Select value={documentType} onValueChange={(val) => setDocumentType(val as typeof documentType)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select document type" />
                 </SelectTrigger>
@@ -257,7 +289,7 @@ export function DocumentAnalyzer() {
               </CardContent>
             </Card>
 
-            {/* Summary */}
+            {/* Summary with TTS */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -265,8 +297,13 @@ export function DocumentAnalyzer() {
                   Summary
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-4">
                 <p className="text-muted-foreground leading-relaxed">{analysis.summary}</p>
+                <TTSPlayer
+                  text={analysis.summary}
+                  label="Listen to Summary"
+                  voice="onyx"
+                />
               </CardContent>
             </Card>
 
