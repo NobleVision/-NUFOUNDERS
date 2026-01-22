@@ -1,0 +1,373 @@
+WAS REMOVED FROM THIS ONE WAS TOO EARLY https://us02web.zoom.us/j/88020072689?pwd=W2Zlglt6bpaYaLBUpCnXkWi3xYgLZy.1
+
+https://us02web.zoom.us/j/83655593195?pwd=V3FbSHzYyDAoC9sgWyatQozghO9Ja0.1
+
+
+! Intro Related
+	GenAI development 4 years
+	UI development 7 years
+	Few decades of Coding for Network Monitoring; Broadcom, IBM, 
+	Self-employed for a few decades; 2021
+	
+! Recent Customers w/AI development
+
+	Spectrum/Charter (ISP)
+	Kyndryl/Elevance Health/Anthem
+	Wells Fargo
+	CVS
+	Visum
+		Peru Cameras New product ELI (under IREX) 40,000 cameras 
+		Bahrain Oil
+		Smart City Baltimore
+		Tmobile
+		Africa
+			Congo
+			Corta Vore
+		
+	Tools used
+		Manus AI
+		Augment Code w/Opus 4.5
+		Kira (AWS)
+		Claud Code
+		AntiGravety
+		WinSurf
+		Replit
+		Grok
+
+	Personal
+		GoGetter
+		Music
+		Makeover
+		CryptoTrading
+		Adventure Game
+	
+
+! Rates; retainer or time and material
+
+Team calling themselfes new founders INC.
+
+Chare of the board, sandra is the president, machine hall is on the phone.
+
+Cyber security expert..
+
+Interviewing more than one person
+
+Looking for AI Expert, putting together a complex system
+
+Sharing a document..  
+	
+	
+	
+	
+	End users are displaced workers, 
+	
+	! Hay Gen subject mater exports
+	
+	! Did training for Elevance Health on new IBM sevone system
+		Randomized, videos, fund points,, certificates, community driven
+		300k black woman; 600k incuding exisitng
+		Doing this in Couti Vore West africa through EXIM bank is simular
+		
+		Demographics, experiences and progress and unmet needs.
+		
+		!This is propritary database will have it IP ; vector database infurence
+			Neo4J graph
+			
+		! Scholarships; B2B backend like job hunting to see skill sets
+			Wallmart doing something simular with AI
+			OpenAI doing some thing simular
+			
+	*** Evaluating Canidates
+
+LOOKING FOR
+	1) Capacity to Build robust multi-layer platform
+
+	2) !Scalible to 1000s of peolple maybe millions, worked with 400,000 routers and switches at Ft. Hourchucka, entire army
+		a. Larage enterprise companies
+	3) !Culture
+		
+	
+Characteristics of background that I'm a good fit for what they need
+	Will speek to venture captilists
+		!Explain the details to the venture capalists why I have the capibility to
+		
+		
+Basics, standard, premium level, plaatformthat include a layer for all of the skill; 4, 5 thousand users.
+
+
+** servery responses for a just place for creating a plat form and refining the plat form relevent to the people to the people that we are trying to reach.
+
+** servery application, need options for the target market.   
+
+
+EXECUTIVE  SUMMARY
+
+## Executive Summary (Senior Leadership)
+
+### Purpose
+New Founders Inc. conducted a virtual interview with AI platform candidate **Ian Noble** to assess fit against three criteria: **(1) ability to build a robust multi-layer platform, (2) ability to scale/reliability at thousands+ users, (3) culture fit**.
+
+### Platform Overview (What the team is building)
+An **AI-native upskilling + business formation platform** for **displaced workers** (initial target subgroup emphasized: **Black women**). Core modules include:
+- **10–25 AI-generated training courses** (AI agents + 10–20% human SME support; basic/standard/premium tiers discussed).
+- **Monetization pathways** (entrepreneurship training: business formation, planning, expansion).
+- **Community/networking** (virtual + in-person).
+- **Proprietary displaced-worker database** tracking demographics, progress, and unmet needs (positioned as key IP/value driver).
+- **Scholarships** (corporate/impact sponsors) and **employer access hooks** to view trainee progress.
+- **Access-to-capital** via quarterly pitch competitions.
+
+### Candidate Highlights (Ian Noble)
+- **Experience**: Decades in IT/software; Army programming background; strong backend (Python) and observability/network monitoring; claims large-scale systems exposure (e.g., ~400k routers/switches).
+- **GenAI**: ~4 years (since GPT-2 era); uses multiple agentic/dev tools (e.g., Manus AI, Claude Code, Replit/Cursor-like tooling).
+- **Work examples**: Described AI/dashboard and infrastructure-related work for large enterprises (e.g., Charter/Spectrum, Elevance/Anthem, Wells Fargo, CVS, T-Mobile) and international smart-city/camera projects.
+- **Demo shown**: “**GoGetter**” prototype (built in hours) demonstrating rapid AI-assisted app building, authentication, wizards, and AI-generated content/music. Used as proof of speed/prototyping capability (not a direct match to the target product).
+
+### Timeline / Cost Signals (Indicative, not committed)
+- Candidate stated he can deliver:
+  - **Prototype in ~1 day** (even “before midnight” claimed).
+  - “Production-ready” elements in **~1 week** (claim).
+- Pricing discussed:
+  - **$10K retainer** to begin + **$150/hr** time & materials (subject to scoping).
+  - Cloud infrastructure costs not estimated yet; candidate requested building/reviewing prototype first to size scaling costs (pay-as-you-go model, decommission at night, etc.).
+- Candidate suggested a **small team (1–3 people)** could build and scale the product; maintenance could be handled via retainer/on-call.
+
+### Key Decisions / Outcomes
+- Team confirmed interest in the candidate’s approach but **no hire decision made** during the meeting.
+- Team indicated they will **reconvene internally** and **respond within 48 hours**.
+- Agreement in principle that a **prototype-first approach** is the fastest path to clarify scope, UX, and infrastructure cost.
+
+### Action Items (Next 48–72 hours)
+1. **Internal**: Align on MVP scope (modules, tiering, must-have integrations, data model for proprietary database) to prevent scope drift.
+2. **Candidate**: Request a **working prototype/demo** aligned to the actual platform (not GoGetter), including:
+   - Course generation flow (AI + human SME touchpoints)
+   - User onboarding + role-based access
+   - Data capture into the proprietary database concept (incl. basic governance)
+3. **Costing**: After prototype review, require a **written estimate** covering:
+   - Build hours by module (MVP vs v1)
+   - Cloud architecture + monthly run-rate at **1K / 5K / 10K users**
+   - Maintenance/support SLA and retainer terms
+4. **Go-to-market research**: Team is building a **survey** to validate needs and refine platform; candidate suggested using **Facebook ads** to reach Black women and either using SurveyMonkey or quickly building a custom lightweight survey app.
+5. **Risk/controls** (recommended to formalize early): data privacy, bias/fairness, hallucination controls, and IP ownership terms (especially around AI-generated content and proprietary database).
+
+
+DETAILED
+
+## Overview
+This transcript captures a virtual interview between the “New Founders Inc.” team and a candidate (Ian Noble) for an AI expert/engineering role. The team is evaluating Ian’s ability to build and scale an “AI-native” upskilling and entrepreneurship platform for displaced workers—initially targeting Black women—and to fit the group’s culture.
+
+---
+
+## Participants & Context
+- **John Hall** (Chair of the Board) leads the interview.
+- **Sandra Williams** (President/CEO), plus **Tyler Phillips**, **Michelle Hall**, and later **Juanita Aguard** (cybersecurity expert).
+- The meeting starts with apologies for lateness and minor Zoom logistics issues.
+- The team states they are **interviewing multiple candidates** for this AI-focused role.
+
+---
+
+## Main Themes
+
+### 1) The product vision: AI-native upskilling + monetization + community + proprietary data
+John presents a “quick and dirty” description of the platform, emphasizing that it is largely AI-driven with human support:
+- **End users:** displaced workers (with an initial focus on **Black women**, citing displacement numbers).
+- **Core training model:** “**80% AI-native**” with “**20% human expert instructors**” (human SMEs).
+- **Course generation:** “**10 to 25 curated upskilling training courses dynamically generated by AI subject matter agents**,” refined iteratively by humans.
+- **Monetization pathways:** users learn skills and then get support to monetize via:
+  - business formation, planning, and expansion curricula
+  - matching skill pathways with entrepreneurship modules
+- **Community building:** professional networking communities, virtual and in-person events.
+- **Proprietary displaced-worker database:** demographics, experience, progress, unmet needs—positioned as the company’s **most valuable IP**.
+- **Scholarships & employer partnerships:** sponsors/corporations fund training and may hire candidates.
+- **Pitch competitions + capital access:** “New Founder quarterly pitch competitions” for debt/equity opportunities.
+
+**Supporting detail:** John frames the proprietary database as the key differentiator and valuation driver: the company expects eventually “**thousands of end users included in this database**.”
+
+---
+
+### 2) Evaluation criteria: build ability, scaling reliability, culture fit
+John defines three interview criteria:
+1. Ability to build a **robust, multilayered platform**
+2. Ability to handle **scaling challenges** (including model “hallucinating” or failing as users grow)
+3. **Culture fit** under complexity—staying “cool and collected”
+
+---
+
+### 3) Candidate pitch: Ian’s background and claimed capability
+Ian positions himself as a senior technologist with extensive enterprise experience:
+- **Career:** decades in IT; former U.S. Army computer programmer (7 years); backend Python experience; UI development ~7 years; self-employed since 2021.
+- **GenAI:** claims experience since **GPT-2 era**, working with tokens/PyTorch around 2021.
+- **Scale/observability:** emphasizes network monitoring/observability work (Broadcom, IBM), including large-scale systems (mentions “400,000 routers and switches” in Army networks).
+- **Recent/ongoing customers:** Spectrum/Charter, Elevance Health (Anthem), Wells Fargo, CVS, T-Mobile, international “smart city”/camera projects (Peru, Bahrain, Baltimore), and West Africa (Congo, Côte d’Ivoire).
+- **Toolchain:** lists many AI/dev tools (e.g., Manus AI, Claude Code, Replit, Cursor, Windsurf, Grok, AWS-related tools).
+
+He suggests architectural approaches aligned with the team’s IP goals:
+- **Vector / graph database + inference** to make the proprietary dataset usable in real time and to improve courses continuously as more users participate.
+
+---
+
+### 4) Feasibility, timeline, and cost: aggressive claims + request for prototype-first estimating
+A substantial part of the interview centers on cost and build time:
+- Ian prefers **prototype → feedback → cost estimate**, rather than pricing from a vague spec.
+- He offers ballpark pricing:
+  - **$10,000 retainer** to get started (and possibly support ongoing)
+  - **$150/hour time-and-materials**
+- He claims he could deliver:
+  - a **prototype in a day**
+  - “production ready stuff” in a day (depending on definition)
+  - and at one point asserts he could build the full platform extremely quickly (“before midnight tonight”), while later also saying “probably a week worth of work” for “everything we talked about.”
+
+The team pushes for **infrastructure cost** estimates for scaling (e.g., 10,000 users), but Ian says he needs the specific system components first. He notes cloud costs can be optimized via autoscaling (“decommission at night … wake up in the morning”).
+
+**Team budget context:** John indicates they envision a **year-one budget around $1M**, and Ian agrees the platform should be feasible under that since it’s “not creating new science.”
+
+---
+
+### 5) Demo artifact: Ian shares “GoGetter” prototype as proof of speed
+Ian shows a demo web app, **GoGetter (gogetter.noblevision.com)**, built in “a couple hours,” intended to:
+- collect user preferences/personality/skills
+- propose business ideas (including niche discovery)
+- estimate earnings
+- generate business plans
+- track businesses
+- integrate with AI models/APIs
+- includes AI-generated documentation and AI-generated music/rap
+
+The team treats it as evidence of his ability to rapidly prototype, though it’s acknowledged as not the same product they are building.
+
+---
+
+### 6) Go-to-market research: survey creation and reaching Black women
+Tyler asks about quickly generating and distributing a survey to refine the platform.
+Ian suggests:
+- using **Facebook ads** as the biggest reach channel
+- using AI to create creative assets quickly (music, visuals)
+- potentially building a simple custom survey app quickly, rather than relying on tools like SurveyMonkey (though SurveyMonkey is mentioned as an example).
+
+---
+
+## Notable Quotes / Statements
+- On platform focus: **“an AI native upskilling and business formation platform for displaced workers.”**
+- On the IP strategy: **“This proprietary database is what we consider to be our most valuable IP.”**
+- On scaling risk: platforms work smoothly with few users, but at scale “**it starts hallucinating**.”
+- On his speed claim: **“I could do it before midnight tonight really.”**
+- On market framing: **“the United States workforce already has a bad cold and black women have double pneumonia.”**
+- On macro job displacement: Ian claims **“95 million jobs lost by 2027.”**
+- On modern staffing: **“In the past, you would need a team of 50 coders… Those days are gone.”**
+
+---
+
+## Decisions / Next Steps
+- The team will “powwow” internally and respond **within 48 hours**.
+- Ian indicates willingness to:
+  - build a prototype quickly (possibly by the next day)
+  - iterate based on feedback
+  - then provide estimates for infrastructure and scaling costs once the components are clearer.
+
+---
+
+## Overall Summary (One paragraph)
+New Founders Inc. interviews Ian Noble for an AI expert role to build an AI-first upskilling and entrepreneurship platform for displaced workers (initially targeting Black women), featuring AI-generated courses with human SME support, monetization/business-building modules, community networking, scholarships/employer partnerships, pitch competitions, and a proprietary displaced-worker database positioned as core IP. The team evaluates candidates on build capability, scaling reliability, and culture fit. Ian presents decades of enterprise and observability experience, GenAI work since early GPT models, proposes vector/graph database-driven personalization and continuous improvement, and demonstrates a rapid prototype app (“GoGetter”) as evidence of speed. Cost discussions remain high-level: Ian suggests a $10k retainer and $150/hr after a prototype-based scoping process, claims very fast delivery timelines, and the team plans to decide and follow up within 48 hours.
+  
+
+ACTION ITEMS
+
+- **(Highest priority) Internal decision on candidate selection**
+  - Team to “powwow” and decide whether to proceed with Ian as the AI/platform builder.
+  - **Commitment:** Team will get back to Ian **within 48 hours** with next steps/decision.
+
+- **Define/build a fast prototype to validate scope and capabilities**
+  - If proceeding, have **Ian produce a working prototype** the team can “look/touch/feel” (he indicated **prototype in ~1 day**, and even “before midnight” as an aggressive claim).
+  - Use prototype review cycles (Ian suggested **2–3 days** total iteration) to clarify requirements and confirm feasibility.
+
+- **Create a cost + timeline estimate after prototype review**
+  - Ian to provide an **order-of-magnitude estimate** for:
+    - Development for **basic / standard / premium** tiers (premium may include human interaction).
+    - Cloud infrastructure costs at scale (team requested a scenario like **10,000 users by year 2**).
+    - Ongoing maintenance/support plan.
+  - Ian’s initial pricing anchors mentioned:
+    - **$10k retainer** to start + **$150/hr time & materials** (subject to refinement once scope is concrete).
+
+- **Clarify target architecture and deployment assumptions**
+  - Team to confirm **cloud-based SaaS** approach (vs on-prem) and requirements like:
+    - Autoscaling / “decommission at night” cost controls
+    - Authentication approach (Google/Microsoft/other SSO)
+    - Data/IP plan for the **proprietary displaced-worker database** (Ian proposed vector/graph DB + inference/learning).
+
+- **Staffing/resourcing plan for build and maintenance**
+  - Decide whether to accept Ian’s proposed resourcing:
+    - Development: **1–3 engineers** depending on speed of scaling
+    - Maintenance: **1 person on-call** via retainer-based support
+
+- **Survey strategy (immediate go-to-market research)**
+  - Team to finalize and launch a **survey** to refine platform requirements for the target audience (initially **Black women displaced workers**).
+  - Action items discussed:
+    - Choose where/how to **house the survey** so responses can feed into product design and data systems.
+    - Identify distribution channels; suggestion: **Facebook ads** as primary reach mechanism (plus other platforms like X, BlueSky, Reddit).
+    - Decide whether to use an existing tool (e.g., SurveyMonkey) or **build a lightweight custom survey app** quickly (Ian suggested building it fast with AI tooling, e.g., Lovable).
+
+- **Review candidate work sample**
+  - Team members to review Ian’s demo site: **gogetter.noblevision.com** (shared as an example of his capabilities and speed).
+  - Optionally schedule a follow-up where Ian **walks through the demo** and answers technical questions tied back to New Founders Inc.’s platform.
+
+- **Funding/budget alignment**
+  - Team to reconcile platform scope with stated **year-one budget target (~$1M)** and confirm infrastructure spend is “pass-through” and usage-based.
+  - Ensure the SaaS model is designed to **break even in ~6 months** (stated goal) and supports scaling to government-contract-sized cohorts.
+
+KEY TAKE AWAYS
+
+## Key takeaways / summary
+
+### 1) Purpose of the meeting
+- New Founders Inc. leadership conducted a virtual interview with Ian Noble (candidate) for an **AI expert/lead builder** role.  
+- They disclosed they are **interviewing multiple candidates** and emphasized the need for both technical capability and strong culture fit.
+
+### 2) The platform New Founders Inc. wants to build
+They described an **“AI-native upskilling + business formation platform”** aimed at **displaced workers**, initially focusing on **Black women** as a priority subgroup.
+
+Core components:
+- **AI-generated, dynamically curated training** (described as ~80% AI + 20% human expert instructors).
+- **10–25 upskilling courses**, created by AI “subject matter agents,” iteratively improved with human SMEs.
+- **Monetization pathways** tied to training:
+  - Business formation, planning, and expansion curricula.
+  - Matching skills training to plausible entrepreneurship modules.
+- **Community features**: networking groups and virtual/in-person events.
+- A **proprietary displaced-worker database** capturing demographics, experiences, progress, and unmet needs—positioned as the **most valuable IP** and a major driver of company valuation.
+- **Scholarships** funded by corporations/sponsors/impact investors (including employers seeking hard-to-fill roles).
+- **Access to capital** via quarterly pitch competitions for trainees pursuing businesses (debt/equity).
+
+### 3) Candidate evaluation criteria (what the team prioritized)
+1. Ability to **build a robust multi-layered platform** (end-to-end).
+2. Ability to **scale reliably** to thousands of users and troubleshoot issues like degradation/hallucinations at scale.
+3. **Culture fit**: calm under complexity, collaborative team orientation.
+
+### 4) Ian Noble’s stated background and positioning
+- Decades in IT/software; **backend-heavy Python experience**; **US Army programming background**.
+- Claims experience with **large-scale systems** (example cited: monitoring infrastructure involving ~400,000 routers/switches).
+- Has worked with or delivered projects for large enterprises (named: Charter/Spectrum, Elevance/Anthem, Wells Fargo, CVS, T-Mobile, and international “smart city/camera” initiatives).
+- Has worked in **generative AI since GPT-2 era** (~4 years claimed).
+- Mentioned toolset focused on agentic/dev acceleration (Manus AI, Claude Code, Replit, Cursor, Windsurf, Grok, AWS-related tools, etc.).
+- Proposed using **vector/graph databases** (e.g., Neo4j) and “inference” over stored org/user data to improve course personalization and iterative learning.
+
+### 5) Feasibility, prototype, timing, and cost discussion
+- Ian strongly stated the platform is **feasible** and claimed a **prototype could be produced quickly** (as fast as “by tomorrow,” even suggesting “before midnight”).
+- He was reluctant to quote full infrastructure costs without seeing/creating a prototype first; suggested costs depend on architecture and components.
+- Ballpark commercial terms he floated:
+  - **$10k retainer** to begin and produce an initial working prototype (he suggested it could support ~100 users initially).
+  - **$150/hour** time-and-materials thereafter (plus ongoing maintenance via retainer).
+- The team shared their **year-one total budget assumption ~ $1M**, and Ian agreed the platform could be built for well under that, emphasizing this is “not new science.”
+
+### 6) Demo shown: “GoGetter” app
+- Ian demoed a lightweight web app he built (claimed in a few hours) called **GoGetter**:
+  - Uses login/auth (Google).
+  - Runs a “wizard” to learn a user’s interests/goals and proposes business ideas (including niche ideas), with estimated earnings and plans.
+  - Includes AI-generated documentation/diagrams and AI-generated music.
+- The team viewed it as a proof-of-execution example, though it’s not the same product as their displaced-worker upskilling platform.
+
+### 7) Survey + user acquisition discussion (early go-to-market)
+- New Founders Inc. is currently trying to create a **survey** to validate needs and refine the platform, and they want help distributing it to the target market.
+- Ian suggested:
+  - Using **Facebook ads** as a major channel to reach Black women at scale.
+  - Creating a simple custom survey app quickly (instead of relying solely on tools like SurveyMonkey), potentially using rapid app generators (e.g., Lovable) or a custom build.
+
+### 8) Next steps
+- The team said they would internally deliberate and get back to Ian **within 48 hours**.
