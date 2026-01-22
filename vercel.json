@@ -12,6 +12,10 @@
     {
       "source": "/api/oauth/:path*", 
       "destination": "/api/oauth/:path*"
+    },
+    {
+      "source": "/((?!api|_next|static|favicon.ico|.*\\..*).*)",
+      "destination": "/index.html"
     }
   ],
   "functions": {
