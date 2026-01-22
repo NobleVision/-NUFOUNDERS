@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { VideoCarousel } from "@/components/ui/video-carousel";
+import { TTSInlineButton } from "@/components/ui/tts-player";
 import { PAGE_VIDEO_SETS } from "@/lib/videoAssets";
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
@@ -295,6 +296,13 @@ export default function Community() {
                             <MessageSquare className="w-4 h-4" />
                             {post.replies}
                           </span>
+                          {post.category === "Success Stories" && (
+                            <TTSInlineButton
+                              text={`${post.title}. ${post.content}`}
+                              voice="onyx"
+                              size="sm"
+                            />
+                          )}
                         </div>
                       </div>
                     </div>

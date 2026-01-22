@@ -6,6 +6,8 @@
 
 The platform combines cutting-edge artificial intelligence with human expertise to deliver personalized learning experiences, data-driven business formation support, and meaningful community connections. With a target of $30 million in revenue for 2026, NuFounders is positioned to become the premier destination for workforce reentry and entrepreneurship among displaced Black women.
 
+![NuFounders Executive Summary - AI-native workforce transformation platform](docs/images/NuFounders-01-ExecutiveSummary.jfif)
+
 ### Key Value Propositions
 
 | Stakeholder | Value Delivered |
@@ -46,6 +48,8 @@ The platform combines cutting-edge artificial intelligence with human expertise 
 ## Platform Architecture
 
 The NuFounders platform follows a modern, scalable architecture designed for rapid growth and AI-native operations.
+
+![Platform Architecture Overview](docs/images/NuFounders-02-Platform%20Architecture.jfif)
 
 ```mermaid
 flowchart TB
@@ -98,6 +102,8 @@ flowchart TB
 
 The platform guides users through a comprehensive journey from displacement to entrepreneurship success.
 
+![User Journey Flow](docs/images/NuFounders-03-User%20Journey.jfif)
+
 ```mermaid
 journey
     title NuFounders User Journey
@@ -130,6 +136,8 @@ journey
 ### 1. Multi-Step Onboarding Wizard
 
 The onboarding process captures comprehensive user data to enable personalized recommendations.
+
+![Multi-Step Onboarding Wizard](docs/images/NuFounders-04-Core%20Features%20Multi-Step%20Onboarding%20Wizzard.jfif)
 
 ```mermaid
 stateDiagram-v2
@@ -174,6 +182,8 @@ stateDiagram-v2
 
 The platform offers 25+ courses across key categories, with 80% AI-generated content and 20% SME review.
 
+![Core Features - AI-Powered Course Catalog](docs/images/NuFounders-06-Core%20Features%20Multi-Step%20Onboarding%20Wizard.jfif)
+
 ```mermaid
 flowchart LR
     subgraph Categories
@@ -213,6 +223,8 @@ flowchart LR
 ### 3. Business Formation Pathway
 
 AI-powered business idea generation and scoring helps users identify viable business opportunities.
+
+![AI-Powered Business Formation Pathway](docs/images/NuFounders-05-AI%20PoweredBusiness%20Formation%20Pathway.jfif)
 
 ```mermaid
 flowchart TB
@@ -258,6 +270,8 @@ flowchart TB
 
 Peer matching uses vector similarity to connect users with compatible community members.
 
+![Community Networking Hub](docs/images/NuFounders-07-Community%20Network%20Hub.jfif)
+
 ```mermaid
 flowchart LR
     subgraph Community["Community Features"]
@@ -294,6 +308,8 @@ flowchart LR
 ### 5. Scholarship & Funding Management
 
 Corporate sponsors can create and manage funding opportunities for platform users.
+
+![Scholarship & Funding Management Sequence](docs/images/NuFounders-08-Scholarship%20%26%20Funding%20Management%20Sequence.jfif)
 
 ```mermaid
 sequenceDiagram
@@ -343,6 +359,8 @@ gantt
 
 NuFounders employs a multi-model AI architecture for different use cases:
 
+![AI Systems Multi-Model Architecture](docs/images/NuFounders-09-AI%20Systems%20Multi-Model%20Architecture.jfif)
+
 ```mermaid
 flowchart TB
     subgraph Models["AI Model Routing"]
@@ -374,6 +392,8 @@ flowchart TB
 
 ### AI Agent Architecture
 
+![AI Agent Architecture](docs/images/NuFounders-10-AI%20Agent%20Architecture.jfif)
+
 ```mermaid
 flowchart LR
     subgraph Agent["NuFounders AI Agent"]
@@ -395,6 +415,8 @@ flowchart LR
 ---
 
 ## Database Architecture
+
+![Database Architecture](docs/images/NuFounders-11-Database%20Architecture.jfif)
 
 ### Entity Relationship Diagram
 
@@ -484,6 +506,8 @@ erDiagram
 ---
 
 ## Role-Based Access Control
+
+![Role-Based Access Control](docs/images/NuFounders-12-Role%20Based%20Access%20Control.jfif)
 
 ```mermaid
 flowchart TB

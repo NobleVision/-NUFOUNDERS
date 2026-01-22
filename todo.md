@@ -56,12 +56,12 @@
 - [x] Create Business Idea Brainstormer UI component
 
 ### Suggested Next Tasks - High Priority
-- [ ] Add TTS to DocumentAnalyzer summary section
-- [ ] Add TTS to success stories on Community page
-- [ ] Implement file upload for document analysis (PDF parsing)
-- [ ] Add resume/LinkedIn optimizer feature
-- [ ] Certificate generation (PDF export) for course completion
-- [ ] SME review workflow UI for AI-generated courses
+- [x] Add TTS to DocumentAnalyzer summary section *(Completed Jan 22, 2026)*
+- [x] Add TTS to success stories on Community page *(Completed Jan 22, 2026)*
+- [x] Implement file upload for document analysis (PDF parsing) *(Completed Jan 22, 2026)*
+- [x] Add resume/LinkedIn optimizer feature *(Completed Jan 22, 2026)*
+- [x] Certificate generation (PDF export) for course completion *(Completed Jan 22, 2026)*
+- [x] SME review workflow UI for AI-generated courses *(Completed Jan 22, 2026)*
 
 ### Suggested Next Tasks - Medium Priority
 - [ ] Implement real WebSocket for production chat (replace polling)
@@ -134,8 +134,8 @@
 - [x] Course catalog page with filtering
 - [x] Course detail pages with modules
 - [x] Progress tracking and gamification
-- [ ] Certificate generation (PDF export) - **Priority: High**
-- [ ] SME review workflow UI - **Priority: High**
+- [x] Certificate generation (PDF export) - **Completed Jan 22, 2026**
+- [x] SME review workflow UI - **Completed Jan 22, 2026**
 
 ## Phase 5: Business Formation
 - [x] Business idea generation based on courses
@@ -190,8 +190,8 @@
 
 ### Must-Have (Core Business Requirements)
 - [ ] **Employer Portal (B2B)** - Allow employers to view trainee progress, search talent by skills
-- [ ] **SME Dashboard** - Interface for human Subject Matter Experts to review/approve AI-generated courses
-- [ ] **Certificate Generation** - PDF certificates upon course completion (gamification element)
+- [x] **SME Dashboard** - Interface for human Subject Matter Experts to review/approve AI-generated courses *(Completed Jan 22, 2026)*
+- [x] **Certificate Generation** - PDF certificates upon course completion (gamification element) *(Completed Jan 22, 2026)*
 - [ ] **Capital Access Integration** - Connect pitch competition winners with debt/equity funding sources
 
 ### Should-Have (Competitive Differentiators)

@@ -34,10 +34,12 @@ import {
   BarChart3,
   Rocket,
   FileSearch,
-  Brain
+  Brain,
+  UserCircle
 } from "lucide-react";
 import { DocumentAnalyzer } from "@/components/DocumentAnalyzer";
 import { BusinessBrainstormer } from "@/components/BusinessBrainstormer";
+import { ResumeOptimizer } from "@/components/ResumeOptimizer";
 
 // Mock business ideas for demo
 const MOCK_IDEAS = [
@@ -256,7 +258,7 @@ export default function Business() {
         </div>
 
         <Tabs defaultValue="ideas" className="space-y-6">
-          <TabsList className="grid w-full max-w-2xl grid-cols-4">
+          <TabsList className="grid w-full max-w-3xl grid-cols-5">
             <TabsTrigger value="ideas">My Ideas</TabsTrigger>
             <TabsTrigger value="brainstorm">
               <Brain className="w-4 h-4 mr-1" />
@@ -265,6 +267,10 @@ export default function Business() {
             <TabsTrigger value="analyzer">
               <FileSearch className="w-4 h-4 mr-1" />
               Analyzer
+            </TabsTrigger>
+            <TabsTrigger value="career">
+              <UserCircle className="w-4 h-4 mr-1" />
+              Career
             </TabsTrigger>
             <TabsTrigger value="competitions">Competitions</TabsTrigger>
           </TabsList>
@@ -410,6 +416,11 @@ export default function Business() {
           {/* Document Analyzer Tab */}
           <TabsContent value="analyzer" className="space-y-6">
             <DocumentAnalyzer />
+          </TabsContent>
+
+          {/* Career Tools Tab */}
+          <TabsContent value="career" className="space-y-6">
+            <ResumeOptimizer />
           </TabsContent>
 
           {/* Pitch Competitions Tab */}

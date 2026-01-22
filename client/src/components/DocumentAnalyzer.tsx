@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { TTSPlayer } from "@/components/ui/tts-player";
+import { parsePDF, isPDFError } from "@/lib/pdfParser";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
@@ -26,7 +27,9 @@ import {
   Loader2,
   ChevronRight,
   Award,
-  Zap
+  Zap,
+  File,
+  X
 } from "lucide-react";
 
 interface DocumentAnalysis {
@@ -64,6 +67,10 @@ export function DocumentAnalyzer() {
   const [analysis, setAnalysis] = useState<DocumentAnalysis | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [useMockData, setUseMockData] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [isParsing, setIsParsing] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // tRPC mutation for document analysis
   const analyzeMutation = trpc.document.analyze.useMutation({
@@ -124,6 +131,61 @@ export function DocumentAnalyzer() {
     toast.success("Document analysis complete! (Demo mode)");
   }, []);
 
+  const handleFileUpload = useCallback(async (file: File) => {
+    setIsParsing(true);
+    setUploadedFile(file);
+    
+    const result = await parsePDF(file);
+    
+    if (isPDFError(result)) {
+      toast.error(result.error, { description: result.details });
+      setUploadedFile(null);
+      setIsParsing(false);
+      return;
+    }
+    
+    setDocumentText(result.text);
+    toast.success(`PDF parsed successfully`, {
+      description: `Extracted ${result.pageCount} page${result.pageCount > 1 ? 's' : ''} of content`,
+    });
+    setIsParsing(false);
+  }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      handleFileUpload(file);
+    }
+  }, [handleFileUpload]);
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  }, []);
+
+  const handleFileInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleFileUpload(file);
+    }
+  }, [handleFileUpload]);
+
+  const clearUploadedFile = useCallback(() => {
+    setUploadedFile(null);
+    setDocumentText("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  }, []);
+
   const handleAnalyze = useCallback(async () => {
     if (!documentText.trim()) {
       toast.error("Please enter document content to analyze");
@@ -149,7 +211,6 @@ export function DocumentAnalyzer() {
       // Error handled in onError callback
     }
   }, [documentText, documentType, businessContext, analyzeMutation]);
-
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return "text-green-600";
@@ -202,6 +263,79 @@ export function DocumentAnalyzer() {
                 onChange={(e) => setBusinessContext(e.target.value)}
                 rows={1}
               />
+            </div>
+          </div>
+
+          {/* File Upload Zone */}
+          <div className="space-y-2">
+            <Label>Upload PDF Document</Label>
+            <div
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onClick={() => fileInputRef.current?.click()}
+              className={`
+                relative border-2 border-dashed rounded-lg p-6 text-center cursor-pointer
+                transition-all duration-200
+                ${isDragOver 
+                  ? 'border-primary bg-primary/5 scale-[1.02]' 
+                  : 'border-border hover:border-primary/50 hover:bg-muted/50'
+                }
+                ${isParsing ? 'pointer-events-none opacity-60' : ''}
+              `}
+            >
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".pdf,application/pdf"
+                onChange={handleFileInputChange}
+                className="hidden"
+              />
+              
+              {isParsing ? (
+                <div className="flex flex-col items-center gap-2">
+                  <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                  <p className="text-sm text-muted-foreground">Parsing PDF...</p>
+                </div>
+              ) : uploadedFile ? (
+                <div className="flex items-center justify-center gap-3">
+                  <File className="w-8 h-8 text-primary" />
+                  <div className="text-left">
+                    <p className="font-medium">{uploadedFile.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {(uploadedFile.size / 1024).toFixed(1)} KB
+                    </p>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="ml-2"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      clearUploadedFile();
+                    }}
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center gap-2">
+                  <Upload className="w-8 h-8 text-muted-foreground" />
+                  <div>
+                    <p className="font-medium">Drop your PDF here or click to browse</p>
+                    <p className="text-xs text-muted-foreground">Supports PDF files up to 10MB</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-card px-2 text-muted-foreground">Or paste text directly</span>
             </div>
           </div>
 

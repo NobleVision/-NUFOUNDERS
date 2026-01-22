@@ -14,6 +14,7 @@ import Community from "./pages/Community";
 import Events from "./pages/Events";
 import Scholarships from "./pages/Scholarships";
 import AdminDashboard from "./pages/AdminDashboard";
+import SMEDashboard from "./pages/SMEDashboard";
 import Profile from "./pages/Profile";
 import { useAuth } from "./_core/hooks/useAuth";
 import { GlobalAIChatBox } from "./components/GlobalAIChatBox";
@@ -34,6 +35,7 @@ function Router() {
       <Route path="/scholarships" component={Scholarships} />
       <Route path="/profile" component={Profile} />
       {user?.role === 'admin' && <Route path="/admin" component={AdminDashboard} />}
+      {(user?.role === 'sme' || user?.role === 'admin') && <Route path="/sme" component={SMEDashboard} />}
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

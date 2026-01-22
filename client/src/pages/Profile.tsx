@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { downloadCertificate } from "@/lib/certificateGenerator";
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
 import { toast } from "sonner";
@@ -22,12 +23,34 @@ import {
   Trophy,
   Star,
   Target,
-  Calendar
+  Calendar,
+  Download
 } from "lucide-react";
 
 export default function Profile() {
   const { user, isAuthenticated } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [downloadingCertId, setDownloadingCertId] = useState<number | null>(null);
+
+  const handleDownloadCertificate = useCallback((cert: { id: number; courseName: string; completedAt: Date }) => {
+    setDownloadingCertId(cert.id);
+    try {
+      downloadCertificate({
+        userName: user?.name || 'Student',
+        courseName: cert.courseName,
+        completionDate: cert.completedAt,
+        courseHours: 8,
+      });
+      toast.success('Certificate downloaded!', {
+        description: `Your certificate for "${cert.courseName}" has been saved.`,
+      });
+    } catch (error) {
+      toast.error('Failed to generate certificate');
+      console.error('Certificate generation error:', error);
+    } finally {
+      setDownloadingCertId(null);
+    }
+  }, [user?.name]);
 
   const { data: profile } = trpc.profile.get.useQuery(undefined, { enabled: isAuthenticated });
   const { data: enrollments } = trpc.course.getEnrollments.useQuery(undefined, { enabled: isAuthenticated });
@@ -286,8 +309,14 @@ export default function Profile() {
                           <p className="text-sm text-muted-foreground mb-3">
                             Completed {cert.completedAt.toLocaleDateString()}
                           </p>
-                          <Button variant="outline" size="sm">
-                            Download Certificate
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => handleDownloadCertificate(cert)}
+                            disabled={downloadingCertId === cert.id}
+                          >
+                            <Download className="w-4 h-4 mr-2" />
+                            {downloadingCertId === cert.id ? 'Generating...' : 'Download Certificate'}
                           </Button>
                         </div>
                       </div>
