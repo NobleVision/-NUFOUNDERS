@@ -805,9 +805,9 @@ const aiRouter = router({
 
   brainstorm: protectedProcedure
     .input(z.object({
-      skills: z.string(),
-      interests: z.string(),
-      budget: z.string(),
+      skills: z.array(z.string()),
+      interests: z.array(z.string()),
+      capitalAvailable: z.number(),
       timeAvailable: z.string(),
       preferences: z.string().optional(),
     }))

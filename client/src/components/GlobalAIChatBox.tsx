@@ -179,7 +179,6 @@ export function GlobalAIChatBox() {
       context: {
         currentPage: getPageName(location),
         userName: user?.name || undefined,
-        userGoals: user?.goals || undefined,
       },
     });
   }, [messages, location, user, chatMutation, saveToStorage]);
