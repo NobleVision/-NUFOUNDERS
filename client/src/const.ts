@@ -5,7 +5,7 @@ export type OAuthProvider = 'google' | 'github' | 'email';
 
 // Generate OAuth login URLs for different providers
 export const getLoginUrl = (provider: OAuthProvider = 'google') => {
-  const redirectUri = `${window.location.origin}/api/oauth/callback`;
+  const redirectUri = `${window.location.origin}/api/oauth/${provider}/callback`;
   const state = btoa(JSON.stringify({ redirectUri, provider }));
 
   switch (provider) {
