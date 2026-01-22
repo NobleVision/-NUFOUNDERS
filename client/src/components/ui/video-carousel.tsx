@@ -51,7 +51,7 @@ const transitionVariants = {
   },
 };
 
-const kenBurnsVariants: Record<KenBurnsType, { initial: object; animate: object }> = {
+const kenBurnsVariants = {
   zoomIn: {
     initial: { scale: 1, x: 0, y: 0 },
     animate: { scale: 1.15, x: 0, y: 0 },
@@ -76,7 +76,7 @@ const kenBurnsVariants: Record<KenBurnsType, { initial: object; animate: object 
     initial: { scale: 1.1, x: 0, y: "-3%" },
     animate: { scale: 1.1, x: 0, y: "3%" },
   },
-};
+} as const;
 
 export function VideoCarousel({
   videos,
@@ -199,9 +199,8 @@ export function VideoCarousel({
         >
           <motion.div
             className="absolute inset-0 w-full h-full"
-            variants={kenBurnsVariants[kenBurns]}
-            initial="initial"
-            animate="animate"
+            initial={kenBurnsVariants[kenBurns].initial}
+            animate={kenBurnsVariants[kenBurns].animate}
             transition={{ duration: interval / 1000, ease: "linear" }}
           >
             <video
