@@ -174,8 +174,8 @@ export async function updateUserPoints(userId: number, points: number) {
 export async function createCourse(course: InsertCourse) {
   const db = await getDb();
   if (!db) return;
-  const result = await db.insert(courses).values(course);
-  return result[0].insertId;
+  const result = await db.insert(courses).values(course).returning({ id: courses.id });
+  return result[0]?.id;
 }
 
 export async function getCourseById(id: number): Promise<Course | undefined> {
@@ -235,8 +235,8 @@ export async function updateCourse(id: number, data: Partial<InsertCourse>) {
 export async function createCourseModule(module: InsertCourseModule) {
   const db = await getDb();
   if (!db) return;
-  const result = await db.insert(courseModules).values(module);
-  return result[0].insertId;
+  const result = await db.insert(courseModules).values(module).returning({ id: courseModules.id });
+  return result[0]?.id;
 }
 
 export async function getCourseModules(courseId: number): Promise<CourseModule[]> {
@@ -291,8 +291,8 @@ export async function updateEnrollmentProgress(userId: number, courseId: number,
 export async function createBusinessIdea(idea: InsertBusinessIdea) {
   const db = await getDb();
   if (!db) return;
-  const result = await db.insert(businessIdeas).values(idea);
-  return result[0].insertId;
+  const result = await db.insert(businessIdeas).values(idea).returning({ id: businessIdeas.id });
+  return result[0]?.id;
 }
 
 export async function getUserBusinessIdeas(userId: number): Promise<BusinessIdea[]> {
@@ -321,8 +321,8 @@ export async function updateBusinessIdea(id: number, data: Partial<InsertBusines
 export async function createPitchCompetition(competition: InsertPitchCompetition) {
   const db = await getDb();
   if (!db) return;
-  const result = await db.insert(pitchCompetitions).values(competition);
-  return result[0].insertId;
+  const result = await db.insert(pitchCompetitions).values(competition).returning({ id: pitchCompetitions.id });
+  return result[0]?.id;
 }
 
 export async function getAllPitchCompetitions(): Promise<PitchCompetition[]> {
@@ -344,8 +344,8 @@ export async function submitPitch(submission: InsertPitchSubmission) {
 export async function createForumPost(post: InsertForumPost) {
   const db = await getDb();
   if (!db) return;
-  const result = await db.insert(forumPosts).values(post);
-  return result[0].insertId;
+  const result = await db.insert(forumPosts).values(post).returning({ id: forumPosts.id });
+  return result[0]?.id;
 }
 
 export async function getForumPosts(filters?: { category?: string; limit?: number; offset?: number }): Promise<ForumPost[]> {
@@ -389,8 +389,8 @@ export async function getPostReplies(postId: number) {
 export async function createPeerGroup(group: InsertPeerGroup) {
   const db = await getDb();
   if (!db) return;
-  const result = await db.insert(peerGroups).values(group);
-  return result[0].insertId;
+  const result = await db.insert(peerGroups).values(group).returning({ id: peerGroups.id });
+  return result[0]?.id;
 }
 
 export async function getAllPeerGroups(): Promise<PeerGroup[]> {
@@ -415,8 +415,8 @@ export async function joinPeerGroup(membership: InsertPeerGroupMember) {
 export async function createEvent(event: InsertEvent) {
   const db = await getDb();
   if (!db) return;
-  const result = await db.insert(events).values(event);
-  return result[0].insertId;
+  const result = await db.insert(events).values(event).returning({ id: events.id });
+  return result[0]?.id;
 }
 
 export async function getAllEvents(filters?: { upcoming?: boolean }): Promise<Event[]> {
@@ -447,8 +447,8 @@ export async function registerForEvent(registration: InsertEventRegistration) {
 export async function createScholarship(scholarship: InsertScholarship) {
   const db = await getDb();
   if (!db) return;
-  const result = await db.insert(scholarships).values(scholarship);
-  return result[0].insertId;
+  const result = await db.insert(scholarships).values(scholarship).returning({ id: scholarships.id });
+  return result[0]?.id;
 }
 
 export async function getAllScholarships(status?: string): Promise<Scholarship[]> {
@@ -499,8 +499,8 @@ export async function logCandidateView(employerId: number, candidateId: number) 
 export async function createSurvey(survey: InsertSurvey) {
   const db = await getDb();
   if (!db) return;
-  const result = await db.insert(surveys).values(survey);
-  return result[0].insertId;
+  const result = await db.insert(surveys).values(survey).returning({ id: surveys.id });
+  return result[0]?.id;
 }
 
 export async function getAllSurveys() {
