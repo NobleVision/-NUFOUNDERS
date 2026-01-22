@@ -5,12 +5,13 @@
  * progress bar, and volume control. Designed for accessibility and
  * seamless integration throughout the NuFounders platform.
  */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { trpc } from "@/lib/trpc";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Volume2,
@@ -72,17 +73,66 @@ export function TTSPlayer({
 
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Mock TTS for demo - replace with actual API call
+  // tRPC mutation for TTS synthesis
+  const synthesizeMutation = trpc.voice.synthesize.useMutation({
+    onError: (error) => {
+      console.error("TTS synthesis error:", error);
+      setState(prev => ({
+        ...prev,
+        isLoading: false,
+        error: "Failed to generate speech. Using demo mode.",
+      }));
+      // Fall back to demo mode
+      playDemoMode();
+    },
+  });
+
+  // Demo mode fallback when API is unavailable
+  const playDemoMode = () => {
+    const estimatedDuration = Math.ceil((text.length / 150) * 60 / speed);
+    
+    setState(prev => ({
+      ...prev,
+      isLoading: false,
+      isPlaying: true,
+      duration: estimatedDuration,
+      error: null,
+    }));
+
+    onPlayStart?.();
+
+    const startTime = Date.now();
+    const interval = setInterval(() => {
+      const elapsed = (Date.now() - startTime) / 1000;
+      const progress = Math.min((elapsed / estimatedDuration) * 100, 100);
+      
+      setState(prev => ({ ...prev, progress }));
+
+      if (progress >= 100) {
+        clearInterval(interval);
+        setState(prev => ({
+          ...prev,
+          isPlaying: false,
+          isPaused: false,
+        }));
+        onPlayEnd?.();
+      }
+    }, 100);
+
+    (window as any).__ttsInterval = interval;
+  };
+
   const handlePlay = async () => {
     if (state.isPlaying) {
-      audio?.pause();
+      audioRef.current?.pause();
       setState(prev => ({ ...prev, isPlaying: false, isPaused: true }));
       return;
     }
 
-    if (state.isPaused && audio) {
-      audio.play();
+    if (state.isPaused && audioRef.current) {
+      audioRef.current.play();
       setState(prev => ({ ...prev, isPlaying: true, isPaused: false }));
       return;
     }
@@ -90,43 +140,56 @@ export function TTSPlayer({
     setState(prev => ({ ...prev, isLoading: true, error: null }));
 
     try {
-      // Simulate TTS API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Call real TTS API
+      const result = await synthesizeMutation.mutateAsync({
+        text: text.slice(0, 4000), // Limit text length
+        voice,
+        speed,
+      });
 
-      // For demo, create a simple audio visualization
-      // In production, this would be the actual TTS audio
-      const estimatedDuration = Math.ceil((text.length / 150) * 60 / speed);
-      
-      setState(prev => ({
-        ...prev,
-        isLoading: false,
-        isPlaying: true,
-        duration: estimatedDuration,
-      }));
-
-      onPlayStart?.();
-
-      // Simulate playback progress
-      const startTime = Date.now();
-      const interval = setInterval(() => {
-        const elapsed = (Date.now() - startTime) / 1000;
-        const progress = Math.min((elapsed / estimatedDuration) * 100, 100);
+      if (result.audioBase64) {
+        // Create audio from base64
+        const audioData = `data:audio/mp3;base64,${result.audioBase64}`;
+        const newAudio = new Audio(audioData);
+        newAudio.volume = state.volume;
         
-        setState(prev => ({ ...prev, progress }));
+        newAudio.addEventListener('loadedmetadata', () => {
+          setState(prev => ({
+            ...prev,
+            duration: newAudio.duration,
+          }));
+        });
 
-        if (progress >= 100) {
-          clearInterval(interval);
+        newAudio.addEventListener('timeupdate', () => {
+          const progress = (newAudio.currentTime / newAudio.duration) * 100;
+          setState(prev => ({ ...prev, progress }));
+        });
+
+        newAudio.addEventListener('ended', () => {
           setState(prev => ({
             ...prev,
             isPlaying: false,
             isPaused: false,
+            progress: 100,
           }));
           onPlayEnd?.();
-        }
-      }, 100);
+        });
 
-      // Store interval for cleanup
-      (window as any).__ttsInterval = interval;
+        audioRef.current = newAudio;
+        setAudio(newAudio);
+        await newAudio.play();
+
+        setState(prev => ({
+          ...prev,
+          isLoading: false,
+          isPlaying: true,
+        }));
+
+        onPlayStart?.();
+      } else {
+        // No audio returned, use demo mode
+        playDemoMode();
+      }
 
     } catch (error) {
       setState(prev => ({
@@ -141,8 +204,8 @@ export function TTSPlayer({
     if ((window as any).__ttsInterval) {
       clearInterval((window as any).__ttsInterval);
     }
-    audio?.pause();
-    if (audio) audio.currentTime = 0;
+    audioRef.current?.pause();
+    if (audioRef.current) audioRef.current.currentTime = 0;
     setState(prev => ({
       ...prev,
       isPlaying: false,
@@ -157,16 +220,16 @@ export function TTSPlayer({
   };
 
   const toggleMute = () => {
-    if (audio) {
-      audio.muted = !state.isMuted;
+    if (audioRef.current) {
+      audioRef.current.muted = !state.isMuted;
     }
     setState(prev => ({ ...prev, isMuted: !prev.isMuted }));
   };
 
   const handleVolumeChange = (value: number[]) => {
     const newVolume = value[0];
-    if (audio) {
-      audio.volume = newVolume;
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume;
     }
     setState(prev => ({ ...prev, volume: newVolume, isMuted: newVolume === 0 }));
   };
@@ -179,6 +242,8 @@ export function TTSPlayer({
       if ((window as any).__ttsInterval) {
         clearInterval((window as any).__ttsInterval);
       }
+      audioRef.current?.pause();
+      audioRef.current = null;
     };
   }, []);
 

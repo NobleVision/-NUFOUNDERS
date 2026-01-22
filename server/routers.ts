@@ -916,11 +916,11 @@ const dashboardRouter = router({
       },
       business: {
         totalIdeas: businessIdeas.length,
-        inPlanning: businessIdeas.filter(b => b.stage === "idea").length,
-        launched: businessIdeas.filter(b => b.stage === "launched").length,
+        inPlanning: businessIdeas.filter(b => b.status === "idea" || b.status === "planning").length,
+        launched: businessIdeas.filter(b => b.status === "launched" || b.status === "growing" || b.status === "scaled").length,
         pitchesSubmitted: 0, // TODO
         avgScore: businessIdeas.length > 0 
-          ? Math.round(businessIdeas.reduce((sum, b) => sum + (b.score || 0), 0) / businessIdeas.length)
+          ? Math.round(businessIdeas.reduce((sum, b) => sum + (b.compositeScore || 0), 0) / businessIdeas.length)
           : 0,
       },
       community: {
