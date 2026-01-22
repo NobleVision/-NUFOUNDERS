@@ -16,6 +16,7 @@ import Scholarships from "./pages/Scholarships";
 import AdminDashboard from "./pages/AdminDashboard";
 import Profile from "./pages/Profile";
 import { useAuth } from "./_core/hooks/useAuth";
+import { GlobalAIChatBox } from "./components/GlobalAIChatBox";
 
 function Router() {
   const { user, isAuthenticated } = useAuth();
@@ -46,6 +47,7 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
+          <GlobalAIChatBox />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

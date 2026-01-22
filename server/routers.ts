@@ -6,6 +6,7 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import * as db from "./db";
 import { generateCourse, scoreBusinessIdea, generateBusinessPlan, analyzeUserProfile, moderateContent, analyzeBusinessDocument, generatePersonalizedRecommendations, brainstormBusinessIdeas } from "./services/aiServices";
+import { invokeLLM } from "./_core/llm";
 import { synthesizeSpeech, getVoiceForContext, splitTextForTTS, estimateTTSCost } from "./_core/textToSpeech";
 import { chatStore, createChatMessage, pollRoomUpdates, formatMessageForClient, sanitizeMessageContent } from "./_core/websocket";
 import { nanoid } from "nanoid";
@@ -804,15 +805,85 @@ const aiRouter = router({
 
   brainstorm: protectedProcedure
     .input(z.object({
-      skills: z.array(z.string()),
-      interests: z.array(z.string()),
-      capitalAvailable: z.number().min(0),
+      skills: z.string(),
+      interests: z.string(),
+      budget: z.string(),
       timeAvailable: z.string(),
       preferences: z.string().optional(),
     }))
     .mutation(async ({ input }) => {
       const result = await brainstormBusinessIdeas(input);
       return result;
+    }),
+
+  chat: protectedProcedure
+    .input(z.object({
+      messages: z.array(z.object({
+        role: z.enum(["system", "user", "assistant"]),
+        content: z.string(),
+      })),
+      context: z.object({
+        currentPage: z.string().optional(),
+        userName: z.string().optional(),
+        userGoals: z.array(z.string()).optional(),
+      }).optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const { messages, context } = input;
+      
+      // Build system message with NuFounders context
+      const systemMessage = `You are Nova, an AI assistant for NuFounders - a platform helping displaced workers, career changers, and aspiring entrepreneurs build new skills and start businesses.
+
+Your personality:
+- Warm, encouraging, and empowering
+- Knowledgeable about entrepreneurship, digital skills, and career development
+- Practical and action-oriented
+- Culturally aware and inclusive
+
+Current context:
+- User: ${context?.userName || ctx.user.name || 'Member'}
+- Current page: ${context?.currentPage || 'Dashboard'}
+- User goals: ${context?.userGoals?.join(', ') || 'Building skills and exploring business opportunities'}
+
+Platform features you can help with:
+- Courses: Digital marketing, e-commerce, AI literacy, business skills
+- Business tools: Idea brainstorming, document analysis, pitch preparation
+- Community: Networking, mentorship, peer groups
+- Events: Workshops, pitch competitions, networking events
+- Scholarships: Financial assistance for courses and business development
+
+Always be helpful, concise, and guide users toward taking action. If you don't know something specific about the platform, suggest they explore the relevant section or contact support.`;
+
+      // Prepare messages for LLM
+      const llmMessages = [
+        { role: "system" as const, content: systemMessage },
+        ...messages.filter(m => m.role !== "system"),
+      ];
+
+      try {
+        const result = await invokeLLM({ messages: llmMessages });
+        const assistantMessage = result.choices[0]?.message?.content;
+        
+        if (typeof assistantMessage === 'string') {
+          return { response: assistantMessage };
+        }
+        
+        // Handle array content
+        if (Array.isArray(assistantMessage)) {
+          const textContent = assistantMessage.find(c => c.type === 'text');
+          if (textContent && 'text' in textContent) {
+            return { response: textContent.text };
+          }
+        }
+        
+        return { response: "I'm sorry, I couldn't generate a response. Please try again." };
+      } catch (error) {
+        console.error("AI chat error:", error);
+        return { 
+          response: "I'm having trouble connecting right now. Please try again in a moment.",
+          error: true 
+        };
+      }
     }),
 });
 
