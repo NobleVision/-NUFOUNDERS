@@ -65,7 +65,7 @@ export default async function handler(req: Request) {
     return new Response(null, {
       status: 302,
       headers: {
-        'Location': '/',
+        'Location': '/dashboard',
         'Set-Cookie': cookieValue,
       },
     });
