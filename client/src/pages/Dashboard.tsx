@@ -24,8 +24,11 @@ import {
   Trophy,
   Zap,
   Star,
-  Clock
+  Clock,
+  BarChart3
 } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import SurveyWaveTracker from "@/components/SurveyWaveTracker";
 
 export default function Dashboard() {
   const { user, isAuthenticated, logout } = useAuth();
@@ -154,6 +157,7 @@ export default function Dashboard() {
               <p className="text-muted-foreground">Let's continue building your future</p>
             </div>
             <div className="flex items-center gap-4">
+              <ThemeToggle variant="minimal" />
               <Button variant="ghost" size="icon" className="relative">
                 <Bell className="w-5 h-5" />
                 {notifications && notifications.length > 0 && (
@@ -232,6 +236,22 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           </div>
+
+          {/* Survey Wave Tracker - Investor Traction Dashboard */}
+          {(user?.role === 'admin' || true) && (
+            <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <BarChart3 className="w-5 h-5 text-primary" />
+                  Investor Traction Dashboard
+                </CardTitle>
+                <CardDescription>Survey wave progress and cohort analytics</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <SurveyWaveTracker compact />
+              </CardContent>
+            </Card>
+          )}
 
           {/* Quick Actions */}
           <Card>

@@ -41,6 +41,7 @@ interface SurveyWaveTrackerProps {
   totalTarget?: number;
   depositsCollected?: number;
   className?: string;
+  compact?: boolean;
 }
 
 const defaultWaves: SurveyWave[] = [
@@ -92,15 +93,79 @@ const statusConfig = {
   paused: { color: "bg-amber-500/10 text-amber-600 dark:text-amber-400", icon: Pause, label: "Paused" },
 };
 
-export function SurveyWaveTracker({ 
+export default function SurveyWaveTracker({ 
   waves = defaultWaves,
   totalTarget = 2000,
   depositsCollected = 12,
-  className 
+  className,
+  compact = false
 }: SurveyWaveTrackerProps) {
   const totalResponses = waves.reduce((sum, w) => sum + w.currentResponses, 0);
   const completedWaves = waves.filter(w => w.status === "completed").length;
   const activeWave = waves.find(w => w.status === "active");
+
+  // Compact mode for dashboard embedding
+  if (compact) {
+    return (
+      <div className={cn("space-y-4", className)}>
+        {/* Compact Stats Row */}
+        <div className="grid grid-cols-4 gap-3">
+          <div className="text-center p-3 rounded-lg bg-muted/50">
+            <p className="text-2xl font-bold text-primary">{totalResponses}</p>
+            <p className="text-xs text-muted-foreground">Responses</p>
+          </div>
+          <div className="text-center p-3 rounded-lg bg-muted/50">
+            <p className="text-2xl font-bold text-green-600">{completedWaves}/{waves.length}</p>
+            <p className="text-xs text-muted-foreground">Waves</p>
+          </div>
+          <div className="text-center p-3 rounded-lg bg-primary/10">
+            <p className="text-2xl font-bold text-primary">${depositsCollected * 49}</p>
+            <p className="text-xs text-muted-foreground">Deposits</p>
+          </div>
+          <div className="text-center p-3 rounded-lg bg-muted/50">
+            <p className="text-2xl font-bold">34%</p>
+            <p className="text-xs text-muted-foreground">Rate</p>
+          </div>
+        </div>
+
+        {/* Compact Wave Progress */}
+        <div className="space-y-2">
+          {waves.map((wave) => {
+            const config = statusConfig[wave.status];
+            const progress = (wave.currentResponses / wave.targetResponses) * 100;
+            return (
+              <div key={wave.id} className="flex items-center gap-3">
+                <div className={cn(
+                  "w-2 h-2 rounded-full flex-shrink-0",
+                  wave.status === "active" ? "bg-green-500 animate-pulse" : 
+                  wave.status === "completed" ? "bg-primary" : "bg-muted-foreground/30"
+                )} />
+                <span className="text-sm font-medium w-32 truncate">{wave.waveName}</span>
+                <Progress value={progress} className="h-2 flex-1" />
+                <span className="text-xs text-muted-foreground w-16 text-right">
+                  {wave.currentResponses}/{wave.targetResponses}
+                </span>
+                <Badge className={cn("text-xs", config.color)}>{config.label}</Badge>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Active Wave Highlight */}
+        {activeWave && (
+          <div className="flex items-center justify-between p-3 rounded-lg bg-green-500/10 border border-green-500/20">
+            <div className="flex items-center gap-2">
+              <Play className="h-4 w-4 text-green-600" />
+              <span className="text-sm font-medium">Active: {activeWave.waveName}</span>
+            </div>
+            <span className="text-sm text-green-600 font-semibold">
+              {activeWave.currentResponses}/{activeWave.targetResponses} ({Math.round((activeWave.currentResponses / activeWave.targetResponses) * 100)}%)
+            </span>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className={cn("space-y-6", className)}>
