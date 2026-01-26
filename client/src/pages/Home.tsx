@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { VideoCarousel, useVideoList } from "@/components/ui/video-carousel";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { DepositFlow } from "@/components/DepositFlow";
 import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { 
   GraduationCap, 
   Briefcase, 
@@ -18,7 +21,9 @@ import {
   Star,
   Sparkles,
   Target,
-  Rocket
+  Rocket,
+  Zap,
+  X
 } from "lucide-react";
 
 // Animation variants for reusable effects
@@ -47,6 +52,7 @@ export default function Home() {
   const { user, isAuthenticated } = useAuth();
   const { scrollYProgress } = useScroll();
   const heroVideos = useVideoList("/videos");
+  const [showDepositModal, setShowDepositModal] = useState(false);
 
   const stats = [
     { label: "Women Empowered", value: "2,500+", icon: Users },
@@ -134,7 +140,8 @@ export default function Home() {
             <Link href="/scholarships" className="text-muted-foreground hover:text-foreground transition-colors">Scholarships</Link>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <ThemeToggle variant="minimal" />
             {isAuthenticated ? (
               <Link href="/dashboard">
                 <Button>Go to Dashboard</Button>
@@ -395,6 +402,76 @@ export default function Home() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Reserve Your Spot CTA - Investor Traction */}
+      <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-accent/5">
+        <div className="container">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <Badge className="mb-4 bg-accent/10 text-accent border-accent/30">
+                <Zap className="w-3 h-3 mr-1" />
+                Limited Spots Available
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                Join the{" "}
+                <span className="text-gradient">Spring 2026</span>
+                {" "}Founding Cohort
+              </h2>
+              <p className="text-xl text-muted-foreground mb-6">
+                Be among the first 50 founding members to access exclusive training, 
+                mentorship, and funding opportunities. Secure your spot with a fully 
+                refundable deposit.
+              </p>
+              <ul className="space-y-3 mb-8">
+                {[
+                  "Priority access to AI-powered courses",
+                  "Exclusive founding member networking events",
+                  "Direct access to pitch competition judges",
+                  "Lifetime founding member badge & benefits",
+                ].map((item, i) => (
+                  <motion.li
+                    key={i}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="flex items-center gap-3"
+                  >
+                    <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
+                    <span>{item}</span>
+                  </motion.li>
+                ))}
+              </ul>
+              <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                  <span><strong className="text-foreground">47</strong> spots remaining</span>
+                </div>
+                <div className="h-4 w-px bg-border" />
+                <span>100% refundable</span>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <DepositFlow 
+                cohortName="Spring 2026 Cohort"
+                depositAmount={49}
+                spotsRemaining={47}
+              />
+            </motion.div>
           </div>
         </div>
       </section>

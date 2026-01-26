@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-type Theme = "light" | "dark";
+type Theme = "light" | "dark" | "system";
 
 interface ThemeContextType {
   theme: Theme;
-  toggleTheme?: () => void;
-  switchable: boolean;
+  resolvedTheme: "light" | "dark";
+  setTheme: (theme: Theme) => void;
+  toggleTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -13,43 +14,87 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 interface ThemeProviderProps {
   children: React.ReactNode;
   defaultTheme?: Theme;
-  switchable?: boolean;
+}
+
+function getSystemTheme(): "light" | "dark" {
+  if (typeof window === "undefined") return "light";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
 export function ThemeProvider({
   children,
-  defaultTheme = "light",
-  switchable = false,
+  defaultTheme = "system",
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (switchable) {
-      const stored = localStorage.getItem("theme");
-      return (stored as Theme) || defaultTheme;
-    }
-    return defaultTheme;
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window === "undefined") return defaultTheme;
+    const stored = localStorage.getItem("nufounders-theme");
+    return (stored as Theme) || defaultTheme;
+  });
+
+  const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">(() => {
+    if (theme === "system") return getSystemTheme();
+    return theme;
   });
 
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === "dark") {
+    
+    // Add transition class for smooth theme switching
+    root.classList.add("theme-transition");
+    
+    const resolved = theme === "system" ? getSystemTheme() : theme;
+    setResolvedTheme(resolved);
+    
+    if (resolved === "dark") {
       root.classList.add("dark");
     } else {
       root.classList.remove("dark");
     }
 
-    if (switchable) {
-      localStorage.setItem("theme", theme);
-    }
-  }, [theme, switchable]);
+    localStorage.setItem("nufounders-theme", theme);
+    
+    // Remove transition class after animation completes
+    const timeout = setTimeout(() => {
+      root.classList.remove("theme-transition");
+    }, 300);
+    
+    return () => clearTimeout(timeout);
+  }, [theme]);
 
-  const toggleTheme = switchable
-    ? () => {
-        setTheme(prev => (prev === "light" ? "dark" : "light"));
+  // Listen for system theme changes
+  useEffect(() => {
+    if (theme !== "system") return;
+    
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = (e: MediaQueryListEvent) => {
+      setResolvedTheme(e.matches ? "dark" : "light");
+      const root = document.documentElement;
+      if (e.matches) {
+        root.classList.add("dark");
+      } else {
+        root.classList.remove("dark");
       }
-    : undefined;
+    };
+    
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, [theme]);
+
+  const setTheme = (newTheme: Theme) => {
+    setThemeState(newTheme);
+  };
+
+  const toggleTheme = () => {
+    setThemeState(prev => {
+      if (prev === "light") return "dark";
+      if (prev === "dark") return "light";
+      // If system, toggle to opposite of current resolved
+      return resolvedTheme === "light" ? "dark" : "light";
+    });
+  };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, switchable }}>
+    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );

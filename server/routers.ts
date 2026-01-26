@@ -963,6 +963,161 @@ const chatRouter = router({
 });
 
 // ============================================================================
+// SURVEY WAVE & DEPOSIT ROUTER
+// ============================================================================
+
+const surveyWaveRouter = router({
+  listWaves: adminProcedure
+    .input(z.object({ surveyId: z.number().optional() }).optional())
+    .query(async () => {
+      // Return demo wave data for now
+      return [
+        {
+          id: 1,
+          surveyId: 1,
+          waveName: "Pilot Wave",
+          waveNumber: 1,
+          targetResponses: 10,
+          currentResponses: 10,
+          status: "completed" as const,
+          startDate: "2026-01-15",
+          endDate: "2026-01-20",
+          cohortFilters: { genderFocus: "Black Women", states: ["GA", "TX", "CA"] },
+          keyInsights: ["85% interested in e-commerce", "60% have <$5K capital available"],
+        },
+        {
+          id: 2,
+          surveyId: 1,
+          waveName: "Initial Validation",
+          waveNumber: 2,
+          targetResponses: 40,
+          currentResponses: 28,
+          status: "active" as const,
+          startDate: "2026-01-22",
+          cohortFilters: { genderFocus: "Black Women", displacementReasons: ["layoff", "automation"] },
+        },
+        {
+          id: 3,
+          surveyId: 1,
+          waveName: "Growth Wave",
+          waveNumber: 3,
+          targetResponses: 200,
+          currentResponses: 0,
+          status: "planned" as const,
+          cohortFilters: { genderFocus: "Black Women" },
+        },
+        {
+          id: 4,
+          surveyId: 1,
+          waveName: "Scale Wave",
+          waveNumber: 4,
+          targetResponses: 2000,
+          currentResponses: 0,
+          status: "planned" as const,
+        },
+      ];
+    }),
+
+  getWaveStats: adminProcedure.query(async () => {
+    return {
+      totalResponses: 38,
+      totalTarget: 2000,
+      completedWaves: 1,
+      activeWaves: 1,
+      depositsCollected: 12,
+      depositAmount: 588, // 12 * $49
+      responseRate: 0.34,
+      cohortBreakdown: {
+        "Black Women": 38,
+        "Georgia": 12,
+        "Texas": 14,
+        "California": 12,
+      },
+    };
+  }),
+
+  createWave: adminProcedure
+    .input(z.object({
+      surveyId: z.number(),
+      waveName: z.string(),
+      targetResponses: z.number(),
+      cohortFilters: z.object({
+        ageRange: z.object({ min: z.number().optional(), max: z.number().optional() }).optional(),
+        states: z.array(z.string()).optional(),
+        displacementReasons: z.array(z.string()).optional(),
+        genderFocus: z.string().optional(),
+      }).optional(),
+    }))
+    .mutation(async ({ input }) => {
+      // TODO: Implement actual DB insert
+      return { success: true, waveId: Date.now() };
+    }),
+});
+
+const depositRouter = router({
+  create: publicProcedure
+    .input(z.object({
+      email: z.string().email(),
+      fullName: z.string(),
+      amount: z.number(),
+      demographics: z.object({
+        age: z.number().optional(),
+        state: z.string().optional(),
+        city: z.string().optional(),
+        displacementReason: z.string().optional(),
+        interests: z.array(z.string()).optional(),
+      }).optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      // Simulate Stripe payment intent creation
+      const paymentIntentId = `pi_test_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+      
+      // Log the deposit attempt
+      console.log("[Deposit] New deposit attempt:", {
+        email: input.email,
+        fullName: input.fullName,
+        amount: input.amount,
+        paymentIntentId,
+      });
+
+      // TODO: Actually create deposit in DB
+      // await db.createDeposit({ ...input, stripePaymentIntentId: paymentIntentId });
+
+      return {
+        success: true,
+        paymentIntentId,
+        depositId: Date.now(),
+        message: "Deposit recorded successfully (test mode)",
+      };
+    }),
+
+  list: adminProcedure.query(async () => {
+    // Return demo deposit data
+    return [
+      { id: 1, email: "keisha@example.com", fullName: "Keisha Williams", amount: 49, status: "completed", createdAt: "2026-01-20" },
+      { id: 2, email: "tamara@example.com", fullName: "Tamara Johnson", amount: 49, status: "completed", createdAt: "2026-01-21" },
+      { id: 3, email: "destiny@example.com", fullName: "Destiny Carter", amount: 49, status: "completed", createdAt: "2026-01-22" },
+      { id: 4, email: "aaliyah@example.com", fullName: "Aaliyah Brown", amount: 49, status: "completed", createdAt: "2026-01-23" },
+      { id: 5, email: "jasmine@example.com", fullName: "Jasmine Davis", amount: 49, status: "completed", createdAt: "2026-01-24" },
+    ];
+  }),
+
+  getStats: adminProcedure.query(async () => {
+    return {
+      totalDeposits: 12,
+      totalAmount: 588,
+      averageDeposit: 49,
+      conversionRate: 0.24, // 24% of survey respondents made deposits
+      byState: {
+        "Georgia": 4,
+        "Texas": 5,
+        "California": 3,
+      },
+    };
+  }),
+});
+
+// ============================================================================
 // DASHBOARD STATS ROUTER
 // ============================================================================
 
@@ -1025,6 +1180,8 @@ export const appRouter = router({
   scholarship: scholarshipRouter,
   employer: employerRouter,
   survey: surveyRouter,
+  surveyWave: surveyWaveRouter,
+  deposit: depositRouter,
   analytics: analyticsRouter,
   notification: notificationRouter,
   voice: voiceRouter,

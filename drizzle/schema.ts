@@ -638,3 +638,104 @@ export const userBadges = pgTable("user_badges", {
 
 export type UserBadge = typeof userBadges.$inferSelect;
 export type InsertUserBadge = typeof userBadges.$inferInsert;
+
+// ============================================================================
+// SURVEY WAVE TRACKING & DEPOSIT/SUBSCRIPTION TABLES
+// ============================================================================
+
+export const surveyWaveStatusEnum = pgEnum("survey_wave_status", [
+  "planned", "active", "completed", "paused"
+]);
+
+export const depositStatusEnum = pgEnum("deposit_status", [
+  "pending", "completed", "refunded", "cancelled"
+]);
+
+export const surveyWaves = pgTable("survey_waves", {
+  id: serial("id").primaryKey(),
+  surveyId: integer("survey_id").notNull().references(() => surveys.id),
+  waveName: varchar("wave_name", { length: 100 }).notNull(),
+  waveNumber: integer("wave_number").notNull(),
+  targetResponses: integer("target_responses").notNull(),
+  currentResponses: integer("current_responses").default(0),
+  status: surveyWaveStatusEnum("status").default("planned"),
+  startDate: timestamp("start_date"),
+  endDate: timestamp("end_date"),
+  // Cohort filters for this wave
+  cohortFilters: jsonb("cohort_filters").$type<{
+    ageRange?: { min?: number; max?: number };
+    states?: string[];
+    displacementReasons?: string[];
+    industries?: string[];
+    genderFocus?: string;
+  }>(),
+  // Analysis results
+  analysisNotes: text("analysis_notes"),
+  keyInsights: jsonb("key_insights").$type<string[]>(),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type SurveyWave = typeof surveyWaves.$inferSelect;
+export type InsertSurveyWave = typeof surveyWaves.$inferInsert;
+
+export const cohortDeposits = pgTable("cohort_deposits", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+  surveyResponseId: integer("survey_response_id").references(() => surveyResponses.id),
+  // Deposit details
+  email: varchar("email", { length: 320 }).notNull(),
+  fullName: varchar("full_name", { length: 255 }),
+  amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),
+  currency: varchar("currency", { length: 3 }).default("USD"),
+  status: depositStatusEnum("status").default("pending"),
+  // Stripe integration
+  stripePaymentIntentId: varchar("stripe_payment_intent_id", { length: 255 }),
+  stripeCustomerId: varchar("stripe_customer_id", { length: 255 }),
+  // Cohort assignment
+  cohortName: varchar("cohort_name", { length: 100 }),
+  cohortStartDate: timestamp("cohort_start_date"),
+  // Demographics for segmentation
+  demographics: jsonb("demographics").$type<{
+    age?: number;
+    state?: string;
+    city?: string;
+    displacementReason?: string;
+    previousIndustry?: string;
+    interests?: string[];
+  }>(),
+  // Timestamps
+  depositedAt: timestamp("deposited_at"),
+  refundedAt: timestamp("refunded_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type CohortDeposit = typeof cohortDeposits.$inferSelect;
+export type InsertCohortDeposit = typeof cohortDeposits.$inferInsert;
+
+export const emailCampaigns = pgTable("email_campaigns", {
+  id: serial("id").primaryKey(),
+  surveyId: integer("survey_id").references(() => surveys.id),
+  waveId: integer("wave_id").references(() => surveyWaves.id),
+  name: varchar("name", { length: 255 }).notNull(),
+  subject: varchar("subject", { length: 255 }).notNull(),
+  htmlContent: text("html_content"),
+  textContent: text("text_content"),
+  // Targeting
+  targetCount: integer("target_count").default(0),
+  sentCount: integer("sent_count").default(0),
+  openedCount: integer("opened_count").default(0),
+  clickedCount: integer("clicked_count").default(0),
+  respondedCount: integer("responded_count").default(0),
+  // Status
+  status: varchar("status", { length: 50 }).default("draft"),
+  scheduledAt: timestamp("scheduled_at"),
+  sentAt: timestamp("sent_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type EmailCampaign = typeof emailCampaigns.$inferSelect;
+export type InsertEmailCampaign = typeof emailCampaigns.$inferInsert;

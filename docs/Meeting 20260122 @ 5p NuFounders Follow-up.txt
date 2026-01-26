@@ -1,0 +1,410 @@
+They want to do a hybrid situation
+
+They want me on camera
+
+In the interview yesterday impressed everyone, looking a way to move forward,  A way for the two to work together.
+
+Developed a gant chart to put all of the team members in position to approve the moving parts in the plat form.
+
+Perspective, utilizing various AI tools as imagine.  Chat GTP
+
+
+
+
+
+
+Inerested in moving fast
+
+Deck for capital next week.
+
+
+Develop Deck Drafts
+Advisory Pitches
+Pre-Seed Pitches
+Seed Pitches
+Target Pre-Seed Funding Commitments
+Target Pre-Seed Closing
+Target Seed Funding Commitments
+Target Seed Closing
+A Workflow of Six Phases
+Phase 1. Expert onboarding & structured content upload
+Phase 2. AI generation of up to 25 courses with 8 modules each
+Develop first 4 Human Creator Courses
+Develop first 4 Machine Creator Courses
+Develop 5 to 25 Machine Creator Courses
+Phase 3. Personalised business plan creation aligned to learner skills
+Phase 4. Automated phone & mail surveys (2,000 total)
+Design Survey Instrument
+Design Data collection & analysis Research Methodology
+Conduct initial test of 10?? interviews - analyze & adapr
+Conduct initial 40 interviews (20 by phone/20 by email) - Analyze & adapt
+Conduct & summarize 200 interviews - Analyze & adapt
+Conduct & summarize 2000 interviews - Analyze & adapt[
+
+
+A Workflow of Six Phases
+Phase 1. Expert onboarding & structured content upload
+Phase 2. AI generation of up to 25 courses with 8 modules each
+Develop first 4 Human Creator Courses
+Develop first 4 Machine Creator Courses
+Develop 5 to 25 Machine Creator Courses
+Phase 3. Personalised business plan creation aligned to learner skills
+Phase 4. Automated phone & mail surveys (2,000 total)
+Design Survey Instrument & analysis Research Methodology
+Conduct initial test of 107 interviews (20 by phone/20 by email) – Analyze & adapt
+Conduct & summarize 200 interviews – Analyze & adapt
+Conduct & summarize 2000 interviews – Analyze & adapt
+Phase 5. Data Analysis, cohort creation and membership activation
+Phase 6. Quarterly events, collaboration and sponsorship monetization[
+
+
+
+
+
+50 people or more for the survey; personalize buisnesn creation
+
+Business planning class
+
+Merge all of the skill planning courses with the business planing courses to monitoize this
+
+Phase 4 to automate the phone and mail serveies; automate the email process to scale to 2000 interviews over a course of a year, with rolling serveys and data, data collectiona and alnalysis, 
+	Propritary set of data that is IP.
+	Initial test of interviews with the machine 20 by phone 20 by email
+	Traction for investors; willing for depost for investorf for first cohert; learner earner subscribe to the service.
+	We have 50 people willing to pay the price for the product.  Product fit as well as traction.
+	
+	Devide the respondants to sub groups like black women.
+	
+	Will create colaberation; network communities that can be the basias of the beginning of the processes of creating .
+	
+FOUR ENGINES
+	Expert Knowledge Engine
+	AI Training and Voice instructed Enginie
+	Develop Market Activiation and survey Engin
+	Develop Membership, Dat & Community Engine
+	
+Four layers of Plat form Architecture
+
+
+
+
+
+
+Four Core System Engines
+Develop Expert Knowledge Engine
+Develop AI Training & Voice Instruction Engine
+Develop Market Activation & Survey Engine
+Develop Membership, Data & Community Enging
+Four Layers of Platform Architecture
+Engage Experts – Content Spaces – AI Orchestration Layer – Virtual Classes
+Engage Human Experts for Beta Test Courses
+Engage Machine Agents for Beta Test Courses
+Engage Machine Agents for 10 to 25 Expanded Courses
+Engage Learners – Personalized learning paths – Business Plan AI Mentor
+Engage 40 to100 Learners for Beta Test Courses
+Engage 100 to 2000 Learners in NUFOUNDER Upskilling Courses
+Engage 100 to 2000 Learners in NUFOUNDER Biz Planning Courses
+Engage 100 to 2000 Learners in Blending Upskilling w/Biz Plan Courses
+Initiate Surveys – Qualification Scoring – Subscriptions & Deposits
+Initiate Surveys
+Qualification Scoring
+Subscriptions & Deposits - Beta Traction
+Subscriptions & Deposits - Post Beta
+Analyze and onetize Data – Proprietary Database – Membership Network Events
+Analyze & Monetize Data
+Proprietary Database
+Membership Network Eventsppl-ai-file-upload.s3.amazonaws+1
+
+From <https://www.perplexity.ai/search/can-you-extract-the-text-from-v.lNtUDXQUaUiwhnmQMuLw> 
+
+
+Sweet equity without a dime before $ comes in.
+
+
+EXECUTIVE SUMMARY
+
+
+## Executive Summary (Senior Leadership)
+
+### Purpose
+Follow-up discussion with candidate **Ian** after a strong interview to (1) align on platform build scope and timeline, and (2) assess feasibility of a **hybrid team approach** where Ian and a second top candidate (“Person B”) work together.
+
+### Key Highlights
+- **Candidate performance:** Team reiterated Ian “impressed everyone” and leadership wants to move forward quickly.
+- **Speed to funding:** Leadership plans to **begin pitching capital sources next week** (deck submission/pitch planned on an accelerated timeline).
+- **Platform plan shared (Gantt/workplan):**
+  - **6-phase workflow**: expert onboarding/content upload → AI course generation (target up to **25 courses**) → personalized business plan creation → survey automation/scaling (target up to **2,000** over time) → cohort/membership activation → events/sponsorship monetization.
+  - **Human vs machine course comparison**: build first 4 “human creator” courses in parallel with machine-generated equivalents; survey displaced workers to compare outcomes and refine.
+  - **Traction mechanism:** surveys designed to drive **deposits/subscriptions** (e.g., “hold your place in first cohort”) as investor-ready proof points.
+- **Core platform architecture reiterated:**
+  - **Four engines:** Expert Knowledge; AI Training/Voice Instruction; Market Activation & Survey; Membership/Data/Community.
+  - **Four layers:** Engage Experts; Engage Learners; Initiate Surveys/Qualification/Deposits; Analyze & Monetize Data.
+- **Ian delivered unexpected progress:** Demonstrated a **functional demo site/prototype** built rapidly (onboarding, resume/LinkedIn parsing, AI-assisted business planning elements, courses structure, community features, admin concepts). Team noted this indicates high execution velocity.
+
+### Decisions / Outcomes
+- **Strategic hiring direction:** Leadership is actively pursuing a **two-candidate collaboration model** if both parties are amenable.
+- **Ian’s stance:** Ian confirmed he is **open to working with another AI expert** and to a direct conversation to divide responsibilities.
+- **Compensation expectation set:** Work pre-funding is **sweat equity**; formal paid agreements/incentive structures to be defined **post-funding**.
+
+### Key Risks / Considerations
+- **Role clarity:** Ian’s rapid build created potential mismatch with leadership’s intent to first define workstream ownership across phases/engines/layers.
+- **Pre-funding capacity risk:** Sweat-equity period may constrain availability/retention; requires clear scope, governance, and equity/incentive clarity.
+- **Operational friction:** Ongoing issues with email delays and lack of camera access; leadership requested Ian be **on camera next week**.
+
+### Action Items (Near-Term)
+1. **Leadership (John/Sandra):** Contact “Person B” to confirm willingness to collaborate.  
+2. **Leadership:** Schedule a **4-person working session** (John, Sandra, Ian, Person B) to agree on division of responsibilities across the platform plan.  
+3. **Ian:** Share demo link/repo and a brief walkthrough mapping prototype features to the agreed **phases/engines/layers** (to support workstream assignment).  
+4. **Leadership:** Finalize and deliver **investor pitch/deck** outreach next week; align traction narrative (survey → deposits → cohorts).  
+5. **All:** Resolve communications setup (email reliability; confirm Ian’s camera availability for next week).
+
+
+
+DETAILED
+
+## High-level summary
+This meeting was primarily a follow-up interview with **Ian** after a strong prior-day interview. The team (led by **John** and **Sandra**) is trying to resolve a hiring “stalemate” between Ian and another strong candidate by exploring whether **both candidates could work together** on a fast-moving startup initiative. John also walked Ian through a structured product/build plan (via a Gantt-style view) covering **platform development, course generation, survey-driven traction, and investor fundraising**. Ian surprised the group by showing he had already built a **functional demo website** overnight, demonstrating speed and execution. The meeting ends with Ian agreeing he is open to collaborating with the other candidate, and the team committing to set up a joint conversation.
+
+---
+
+## Main themes
+
+### 1) Decision-making: hiring Ian vs. another candidate (and possibly both)
+- John states Ian **“impressed everyone”** in the prior interview and they want to “move forward,” but another candidate also did well.
+- The team is exploring a **hybrid solution**: hiring/engaging both and dividing responsibilities based on strengths.
+- A core goal of the call: determine whether Ian is **willing and able to collaborate** with another AI expert and how responsibilities might be split.
+
+**Notable statements**
+- John: *“We had this dilemma… the other candidate… came across very well… we’d like to see if there is a way for the two of you to work together.”*
+- John: *“We want to make a decision rather quickly.”*
+- John (re purpose): *“What we’re trying to do is decide whether there is a way for you and the other candidate… to work together.”*
+
+---
+
+### 2) “Move fast” culture + immediate fundraising push
+- The team emphasizes urgency and speed, including outreach to capital sources **starting next week**.
+- John references Silicon Valley’s *“move fast and break things”* mindset, clarifying they want speed but not sloppiness.
+
+**Supporting details**
+- They are preparing a **pitch deck** and engaging investor conversations quickly.
+- The Gantt-style plan includes deck development and multiple pitch stages (advisory, pre-seed, seed) and targeted commitments/closing.
+
+**Notable statements**
+- John: *“We are interested in moving very fast.”*
+- John: *“We’re talking about going out to the source of the capital next week.”*
+
+---
+
+### 3) Platform build plan: phases, engines, and layers
+John describes a structured build approach (influenced by iterative ChatGPT planning) broken into three organizing frameworks:
+
+#### A) Six workflow phases (product + research + scaling)
+1. **Expert onboarding & structured content upload**
+2. **AI generation of up to 25 courses** (often framed as ~8 modules each, but flexible)
+   - Build **first 4 human-created courses** (by internal expert-creators)
+   - Build **first 4 machine-created versions** of those courses (for comparison)
+   - Expand to **5–25 machine-created courses**
+3. **Personalized business plan creation** aligned with learner skills  
+   - Integrate skill-building with business planning to help users **monetize** skills.
+4. **Automated surveys** (initially email; scaling toward 2,000 over time)
+   - Establish methodology for **data collection and analysis** to create proprietary IP.
+   - Early pilots (small n like ~10), then 40, then 200, eventually 2,000.
+5. **Data analysis + cohort creation + membership activation**
+6. **Quarterly events + collaboration + sponsorship monetization**
+
+**Key product/market validation mechanism**
+- The survey includes a traction question: would respondents pay a **deposit** to reserve a spot in the first cohort (“learner earner” subscribers). This is positioned as proof for investors.
+
+**Notable statements**
+- John: *“For comparison and control purposes… the machine will create the same course… and we will compare… what the respondents say about the human created course versus the machine created course.”*
+- John: *“One of the final questions in the survey is, would you be willing to put down a deposit…”*
+
+#### B) Four “engines” (core systems)
+1. **Expert Knowledge Engine** (content ingestion → course conversion)
+2. **AI Training & Voice Instruction Engine** (AI agent teaches; intelligent Q&A)
+3. **Market Activation & Survey Engine** (acquisition + surveying at scale)
+4. **Membership, Data & Community Engine** (communities, networking, events)
+
+#### C) Four “layers” (platform architecture)
+1. **Engage experts** (human and machine, beta → expanded course catalog)
+2. **Engage learners** (beta cohorts 40–100; scale 100–2,000; separate and blended tracks)
+3. **Initiate surveys** (qualification scoring, subscriptions/deposits, traction)
+4. **Analyze & monetize data** (proprietary database + membership network events)
+
+---
+
+### 4) Ian’s execution: demo website built overnight
+Ian reveals he created a working demo at `newfounders.novavision.com` and screenshares key flows:
+- Mission-oriented framing (supporting displaced workers, especially Black women)
+- Onboarding
+- Learning and course enrollment
+- Resume/LinkedIn upload and AI parsing
+- Business plan suggestions and “business formation” pathway
+- Community groups/forums (and plans for live chat)
+- Scholarship section + corporate sponsors
+- Competitions/pitch-for-prizes concept
+- Admin/backend capability for course management
+- Mentions future AI video instruction (e.g., Heygen) not yet integrated
+
+Sandra interprets this as evidence Ian is moving extremely fast and may be highly self-directed, raising an implicit question about collaboration dynamics.
+
+**Notable statements**
+- Sandra (paraphrase): she didn’t expect Ian to have built so much already; it suggests he’s a fast worker.
+- Ian: much of it is *“functional”* and was built quickly (e.g., real-time chat “only took an hour,” authentication took longer).
+
+---
+
+### 5) Collaboration question: can Ian work with another AI expert?
+This becomes the central decision point after Ian’s demo. John repeatedly refocuses the conversation from the demo back to team fit and division of labor.
+
+**Ian’s stance**
+- He says he is open to working with another expert.
+- He suggests it could be mutually beneficial networking-wise and cross-opportunity-wise.
+- He also signals strong confidence in his capabilities across the whole project.
+
+**Notable statements**
+- John: *“How do you feel about working with another AI… expert?”*
+- Ian: *“No, I can do it.”* (i.e., he can work with another expert)
+- Ian (metaphor): *“You guys are trying to carve up a Ferrari… do you like the tires or do you want the steering wheel?”* (implying his skillset spans many components)
+- Ian: *“It can all be done within a week potentially.”* (strong speed/confidence claim)
+
+---
+
+### 6) Mission, values, and compensation reality (sweat equity until funding)
+John expands on company values and the reality of startup risk:
+- Strong emphasis on **integrity and trust**: they do what they say.
+- Mission is explicitly connected to supporting **displaced Black women** and being “the antithesis” of harmful outcomes experienced by Black communities.
+- Clear warning: until funding, contributors would effectively be in a **sweat equity** situation with no guaranteed pay; once funded, formal agreements and incentives would be created.
+- They acknowledge high startup failure rates (90%+), but promise good faith and honoring commitments.
+
+**Notable statements**
+- John: *“We do what we say we’re going to do.”*
+- John: *“We wanna be the antithesis of what’s happened to black people… the place where some good things happen to black people.”*
+- John: *“Everybody that works for us between now and when we get money would be in a sweat equity situation where there’s no guarantee they’ll get paid a dime.”*
+
+---
+
+## Supporting details & notable moments
+- **Technical friction at start:** delayed/missing emails, audio muting, inability to use camera (Ian says cameras are disabled where he is; camera expected next week).
+- The team initially wanted Ian on computer for **screen share** of the Gantt chart.
+- They plan to build traction through **survey-driven validation** and deposits.
+- Long-term goal stated on Ian’s demo: **$30M revenue by 2026** (appears as a target on the demo/messaging).
+
+---
+
+## Outcomes / next steps
+1. Team will contact the **other candidate** to check willingness to collaborate.
+2. If both agree, they will set up a meeting with **all four** (John, Sandra, Ian, and the other candidate) to discuss fit and division of responsibilities.
+3. Ian is invited to contact John/Sandra directly with questions; John provides his phone number.
+4. Continued emphasis on speed: fundraising outreach and pitch activity planned for the coming week.
+
+---
+
+## One-paragraph takeaway
+The call validated that the team is pursuing an accelerated, investor-facing build of an AI-enabled upskilling + entrepreneurship platform powered by course generation, voice-instructed AI teaching, and a survey engine designed to create proprietary data and investor traction. Ian demonstrated exceptional execution speed by producing a working demo website overnight, and he indicated openness to collaborating with another AI expert—setting the stage for a joint discussion to determine whether both top candidates can be engaged and how work would be divided, with the near-term constraint that pre-funding work is sweat equity.
+
+
+ACTION ITEMS
+
+- **Decide staffing approach (Ian + other candidate vs. one hire)**
+  - John/Sandra to **reach out to the other AI candidate** to confirm whether he’s amenable to a hybrid/partnered arrangement.
+  - If yes, team to **set up a joint conversation with all four people** (John, Sandra, Ian, and Candidate B) to assess fit and collaboration.
+  - In that meeting, **agree on division of responsibilities** across the “phases / engines / layers” (who owns what).
+
+- **Fundraising outreach next week (time-sensitive)**
+  - Team to **finalize the pitch deck** and begin **submitting/presenting to capital sources starting next week**.
+  - John to **deliver a pitch to interested capital sources next week** (he did not promise Monday, but plans to pitch next week).
+
+- **Resolve communications/setup issues**
+  - Sandra to **re-send the meeting invite/link via Gmail** (email delays/issues noted).
+  - Team to **get Ian on camera next week** (current camera access limited due to location/equipment).
+
+- **Immediate product review & alignment**
+  - Team to **review the Gantt chart in Concourse** (shared planning artifact) and confirm it reflects the intended build plan.
+  - Team to **review Ian’s functional demo site** (newfounders.novavision.com) and decide what should be incorporated into the official roadmap/MVP.
+
+- **Platform build plan execution (roadmap tasks referenced as next steps)**
+  - **Phase 1:** Expert onboarding & structured content upload.
+  - **Phase 2:** Course generation
+    - Build first **4 human-created courses**.
+    - Build first **4 machine-generated equivalents** for comparison.
+    - Expand to **5–25 machine-generated courses** (modules per course TBD).
+  - **Phase 3:** Build **personalized business plan creation** aligned to learned skills; **merge** skills courses with business planning to support monetization.
+  - **Phase 4:** Surveys + automation
+    - Confirm channel decision (shifted to **email-first** vs. phone).
+    - **Design/refine survey instrument** and **data collection/analysis methodology** (to create proprietary IP).
+    - Run iterative survey waves: **pilot (~10)** → **~40 email interviews** → **summarize first 200** → scale toward **2,000 over time**.
+    - **Automate outbound email survey process** to enable scaling.
+  - **Phase 5–6:** Data/community monetization
+    - **Segment respondents into cohorts/subgroups**, stand up collaboration/networked communities.
+    - Plan **quarterly events** (virtual/in-person/hybrid) and sponsorship monetization.
+
+- **Traction milestone for investors**
+  - During early interview waves, include the question and process to **secure deposits/commitments for the first cohort** (target signal: e.g., **~50 people willing to pay**), and use this as traction evidence for fundraising.
+
+- **Employment/compensation structure**
+  - Team to operate as **sweat equity until funding**.
+  - **After funding**, John/Sandra to **formalize agreements** (employee or independent contractor) including **defined expectations and incentive structures**.
+
+- **Open communication**
+  - Ian to **contact John/Sandra directly with questions** as needed (John provided phone number).
+
+
+KEY TAKEAWAYS
+
+
+## Key takeaways / decisions
+- **Ian impressed the team** in the prior interview; they want to move forward quickly but faced a **tie with another strong AI candidate**.
+- The main purpose of this meeting was to assess whether **Ian and the other candidate could work together** and how to **split responsibilities**.
+- Ian said he’s **open to collaborating** with another AI expert, including potentially benefiting from networking/opportunities beyond this project.
+
+## Platform vision (what they’re building)
+- A platform focused on **upskilling displaced Black women**, pairing skills training with **entrepreneurship/business formation** and **community support**.
+- Monetization is expected through **subscriptions**, **deposits for cohorts**, sponsorships, and ultimately **monetizing a proprietary dataset** derived from surveys and learner behavior.
+
+## Speed + fundraising priorities
+- Team emphasized “**move fast**” (without “break things”): they plan to begin **pitching capital sources next week** using an investor deck.
+- Investors want early **traction signals**; the survey/deposit mechanism is intended to prove **product-market fit + willingness to pay**.
+
+## Development roadmap (Gantt / workflow highlights)
+**Six-phase workflow:**
+1. **Expert onboarding + structured content upload**
+2. **AI generation of courses** (target up to **25 courses**, ~**8 modules** each; module count flexible)  
+   - Build **first 4 human-created courses** (by internal expert creators)  
+   - Build **first 4 machine-created equivalents** (for comparison)  
+   - Expand to **5–25 additional AI-created courses**
+3. **Personalized business plan creation**, aligned to learned skills (business planning is one of the initial pilot courses)
+4. **Automated surveys** (shifted toward email-first; scale toward **2,000+** over time)  
+   - Iterative testing: small pilot (e.g., ~10), then 40, then 200 summaries, scaling upward  
+   - Use “deposit to hold a place” as a traction metric
+5. **Data analysis + cohort/community segmentation** (e.g., interest-based or demographic cohorts)
+6. **Quarterly events + collaboration + sponsorship monetization**
+
+## “Four engines” (core system components)
+1. **Expert Knowledge Engine** (convert human/AI content into courses)
+2. **AI Training & Voice Instruction Engine** (AI agent teaches courses + Q&A)
+3. **Market Activation & Survey Engine** (growth + survey distribution and feedback loop)
+4. **Membership / Data / Community Engine** (networking, communities, events, membership layer)
+
+## “Four layers” (architecture framing)
+- **Engage experts** (content spaces, orchestration, virtual classes; human + AI experts)
+- **Engage learners** (personalized learning paths + AI business plan mentor)
+- **Initiate surveys** (qualification scoring, subscriptions, deposits; beta and post-beta traction)
+- **Analyze & monetize data** (proprietary database + membership/network events)
+
+## Ian’s contribution shown in the meeting
+- Ian demoed a **functional prototype/demo website** built rapidly (described as done largely “last night”), including:
+  - Onboarding flow, learning modules, business formation tools
+  - Resume/LinkedIn upload + AI parsing/improvement
+  - Community groups/forums, events, scholarships, competitions/pitching
+  - Admin/back-end capability for course management
+- The team was impressed but redirected him to the core question: **role fit and collaboration feasibility** with the other candidate.
+
+## Team expectations and working terms
+- Pre-funding work would be **sweat equity** (no guaranteed pay until funding closes).
+- Leadership emphasized **integrity/keeping commitments** and intent to create **incentives/upside** if the venture succeeds (while acknowledging typical startup failure risk).
+
+## Next steps
+- Team will contact the **other candidate** to confirm willingness to collaborate.
+- If aligned, they plan a **follow-up meeting with all four participants** (Ian, the other candidate, and the two leaders) to decide **division of responsibilities** and path forward.
+
